@@ -1,0 +1,1370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arewa Data Plug - VTU & Data Hub</title>
+    <style>
+        :root {
+            --bg-color: #121212;
+            --card-bg: #1e1e2f;
+            --text-color: #ffffff;
+            --border-color: #2d2d44;
+            --accent-color: #3b82f6;
+        }
+        body.light-theme {
+            --bg-color: #f4f6f9;
+            --card-bg: #ffffff;
+            --text-color: #1f2937;
+            --border-color: #e5e7eb;
+            --accent-color: #2563eb;
+        }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 12px;
+            padding-bottom: 70px;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        /* Screens Manager */
+        .screen {
+            display: none;
+        }
+        .screen.active {
+            display: block;
+        }
+
+        /* Splash Screen */
+        #splashScreen {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, #0f172a, #1e1b4b, #3b82f6);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .splash-logo-circle {
+            width: 90px;
+            height: 90px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 45px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.6);
+            animation: bounceLogo 1s ease infinite alternate;
+        }
+        @keyframes bounceLogo {
+            0% { transform: translateY(0) scale(1); }
+            100% { transform: translateY(-10px) scale(1.05); }
+        }
+        .splash-title {
+            font-size: 26px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            background: linear-gradient(90deg, #60a5fa, #4cc9f0, #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: textGlow 1.5s ease-in-out infinite alternate;
+        }
+        @keyframes textGlow {
+            0% { opacity: 0.8; transform: scale(0.98); }
+            100% { opacity: 1; transform: scale(1.02); }
+        }
+        .splash-subtitle {
+            font-size: 12px;
+            color: #cbd5e1;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+        }
+        .splash-loader {
+            width: 35px;
+            height: 35px;
+            border: 3px solid rgba(255,255,255,0.2);
+            border-top: 3px solid #4cc9f0;
+            border-radius: 50%;
+            animation: spinLoader 0.6s linear infinite;
+        }
+        @keyframes spinLoader {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Auth & Register Screens */
+        #authScreen, #registerScreen {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg-color);
+            z-index: 999;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+            overflow-y: auto;
+        }
+        #authScreen.active, #registerScreen.active {
+            display: flex;
+        }
+        .auth-container {
+            width: 100%;
+            max-width: 340px;
+            text-align: center;
+        }
+        .auth-welcome {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .auth-subtitle-brand {
+            font-size: 13px;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+        .fingerprint-circle {
+            width: 70px;
+            height: 70px;
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.2);
+        }
+        .fingerprint-icon {
+            font-size: 32px;
+            color: var(--accent-color);
+        }
+        .fingerprint-text {
+            font-size: 11px;
+            color: #94a3b8;
+            margin-bottom: 20px;
+        }
+        .divider-container {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: #64748b;
+            font-size: 11px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .divider-container::before, .divider-container::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .divider-container::before { margin-right: 10px; }
+        .divider-container::after { margin-left: 10px; }
+
+        .input-group-auth {
+            position: relative;
+            margin-bottom: 12px;
+            text-align: left;
+        }
+        .input-group-auth label {
+            font-size: 11px;
+            color: #94a3b8;
+            display: block;
+            margin-bottom: 4px;
+            font-weight: bold;
+        }
+        .input-group-auth input {
+            width: 100%;
+            padding: 12px 15px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            border-radius: 10px;
+            font-size: 13px;
+            outline: none;
+            box-sizing: border-box;
+        }
+        .login-btn {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 13px;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 10px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+        .auth-links {
+            font-size: 12px;
+            color: var(--accent-color);
+            margin-bottom: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .auth-footer {
+            font-size: 12px;
+            color: #94a3b8;
+            margin-top: 12px;
+        }
+        .auth-footer span {
+            color: var(--accent-color);
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .user-info {
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+            font-size: 15px;
+            color: var(--accent-color);
+        }
+        .user-icon {
+            background: var(--card-bg);
+            color: var(--accent-color);
+            border-radius: 50%;
+            width: 34px;
+            height: 34px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 8px;
+            font-size: 14px;
+            border: 1px solid var(--border-color);
+        }
+        .app-badge {
+            background: var(--card-bg);
+            color: var(--accent-color);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
+            border: 1px solid var(--border-color);
+        }
+        
+        /* Dashboard Wallet & Multiple Accounts */
+        .wallet-card {
+            background: linear-gradient(135deg, #1e1e2f, #2d2d44);
+            color: white;
+            padding: 16px;
+            border-radius: 14px;
+            box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.3);
+            margin-bottom: 15px;
+            border-left: 5px solid #4cc9f0;
+        }
+        .wallet-top {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            color: #a5b4fc;
+        }
+        .wallet-balance {
+            font-size: 22px;
+            font-weight: bold;
+            margin: 8px 0;
+            color: #4cc9f0;
+        }
+        .account-details-box {
+            background: rgba(18, 18, 18, 0.7);
+            border: 1px solid #3b82f6;
+            padding: 8px 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            margin-top: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .copy-acc-btn {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .wallet-footer {
+            font-size: 11px;
+            color: #94a3b8;
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 8px;
+            margin-top: 8px;
+        }
+
+        /* Referral Banner on Dashboard */
+        .dash-referral-banner {
+            background: linear-gradient(135deg, #1d4ed8, #3b82f6);
+            padding: 14px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+        .dash-referral-banner div div:first-child {
+            font-size: 14px;
+            font-weight: bold;
+            color: #fff;
+        }
+        .dash-referral-banner div div:last-child {
+            font-size: 11px;
+            color: #bfdbfe;
+            margin-top: 2px;
+        }
+        .copy-ref-btn {
+            background: #ffffff;
+            color: #1d4ed8;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .quick-actions {
+            display: flex;
+            justify-content: space-between;
+            background: var(--card-bg);
+            padding: 12px;
+            border-radius: 12px;
+            box-shadow: 0px 2px 6px rgba(0,0,0,0.2);
+            margin-bottom: 15px;
+            border: 1px solid var(--border-color);
+        }
+        .action-item {
+            text-align: center;
+            font-size: 11px;
+            font-weight: bold;
+            color: var(--text-color);
+            cursor: pointer;
+        }
+        .action-icon {
+            width: 38px;
+            height: 38px;
+            background: var(--bg-color);
+            color: var(--accent-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 5px;
+            font-size: 16px;
+            border: 1px solid var(--border-color);
+        }
+        .section-title {
+            font-size: 12px;
+            color: #94a3b8;
+            margin-bottom: 10px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .service-card {
+            background: var(--card-bg);
+            padding: 16px 8px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0px 2px 5px rgba(0,0,0,0.2);
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+        }
+        .service-card .icon {
+            font-size: 24px;
+            margin-bottom: 6px;
+        }
+        .service-card span {
+            font-size: 11px;
+            font-weight: bold;
+            color: var(--text-color);
+        }
+
+        .page-section {
+            display: none;
+            background: var(--card-bg);
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0px 2px 6px rgba(0,0,0,0.3);
+            border: 1px solid var(--border-color);
+        }
+        .back-btn {
+            background: var(--border-color);
+            color: var(--text-color);
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: bold;
+            margin-bottom: 12px;
+            cursor: pointer;
+        }
+
+        /* Profile Page Styling */
+        .profile-header-card {
+            background: linear-gradient(135deg, #2563eb, #3b82f6);
+            padding: 20px;
+            border-radius: 14px;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .profile-avatar {
+            width: 65px;
+            height: 65px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            font-size: 28px;
+            color: white;
+            border: 2px solid rgba(255,255,255,0.4);
+        }
+        .profile-name {
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 5px;
+        }
+        .profile-badge-tag {
+            display: inline-block;
+            background: rgba(0,0,0,0.25);
+            color: #e0f2fe;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+        .profile-menu-item {
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            padding: 14px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-size: 13px;
+            color: var(--text-color);
+        }
+
+        .network-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+        .net-select-btn {
+            flex: 1;
+            background: var(--bg-color);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 10px 5px;
+            text-align: center;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: bold;
+            color: #94a3b8;
+        }
+        .net-select-btn.active {
+            border-color: #4cc9f0;
+            background: rgba(76, 201, 240, 0.1);
+            color: #4cc9f0;
+        }
+        .net-badge {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: bold;
+            margin-bottom: 4px;
+            color: #000;
+        }
+        .mtn-badge { background: #ffcc00; }
+        .airtel-badge { background: #ff0000; color: #fff; }
+        .glo-badge { background: #008000; color: #fff; }
+        .eti-badge { background: #004d00; color: #fff; }
+
+        .input-box {
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+        .input-box input {
+            background: transparent;
+            border: none;
+            color: var(--text-color);
+            font-size: 14px;
+            width: 100%;
+            outline: none;
+        }
+        .error-msg {
+            font-size: 11px;
+            color: #ef4444;
+            margin-bottom: 15px;
+            display: none;
+        }
+
+        .plan-type-row {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 15px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+        }
+        .plan-type-btn {
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            color: #94a3b8;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: bold;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        .plan-type-btn.active {
+            background: var(--accent-color);
+            color: white;
+            border-color: var(--accent-color);
+        }
+
+        .data-plan-box {
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+        .plan-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: var(--text-color);
+        }
+        .plan-validity {
+            font-size: 11px;
+            color: #94a3b8;
+            margin-top: 2px;
+        }
+        .plan-guarantee {
+            font-size: 10px;
+            color: #38bdf8;
+            margin-top: 4px;
+            font-weight: 600;
+        }
+        .plan-price-tag {
+            font-size: 15px;
+            font-weight: bold;
+            color: #60a5fa;
+            text-align: right;
+        }
+
+        #buyModal {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 99;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .modal-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 20px;
+            border-radius: 14px;
+            width: 100%;
+            max-width: 320px;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 12px;
+            text-align: left;
+        }
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: bold;
+            color: #cbd5e1;
+            margin-bottom: 5px;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 13px;
+            background: var(--bg-color);
+            color: var(--text-color);
+            outline: none;
+            box-sizing: border-box;
+        }
+        .submit-btn {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 13px;
+            cursor: pointer;
+            margin-top: 5px;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: var(--card-bg);
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 0;
+            box-shadow: 0px -2px 6px rgba(0,0,0,0.3);
+            z-index: 99;
+        }
+        .nav-item {
+            text-align: center;
+            font-size: 10px;
+            color: #94a3b8;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .nav-item.active {
+            color: var(--accent-color);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SPLASH SCREEN -->
+    <div id="splashScreen">
+        <div class="splash-logo-circle">⚡</div>
+        <div class="splash-title">Arewa Data Plug</div>
+        <div class="splash-subtitle">EL-HASHIM INVESTMENT</div>
+        <div class="splash-loader"></div>
+    </div>
+
+    <!-- LOGIN SCREEN -->
+    <div id="authScreen" class="screen">
+        <div class="auth-container">
+            <div class="auth-welcome">Welcome Back</div>
+            <div class="auth-subtitle-brand">EL-HASHIM INVESTMENT</div>
+            
+            <div class="fingerprint-circle" onclick="simulateFingerprint()">
+                <div class="fingerprint-icon">🔒</div>
+            </div>
+            <div class="fingerprint-text">Tap to authenticate</div>
+
+            <div class="divider-container">OR</div>
+
+            <div class="input-group-auth">
+                <label>Login Password (8+ characters)</label>
+                <input type="password" id="authPasswordInput" placeholder="Enter password" minlength="8">
+            </div>
+
+            <button class="login-btn" onclick="verifyAuth()">Login</button>
+
+            <div class="auth-links" onclick="alert('Password reset link sent to your phone/email.')">Forgot Password?</div>
+            <div class="auth-links" onclick="showRegisterScreen()">Don't have an account? Register</div>
+
+            <div class="auth-footer">Need help? <span>Contact Support</span></div>
+        </div>
+    </div>
+
+    <!-- REGISTER SCREEN -->
+    <div id="registerScreen" class="screen">
+        <div class="auth-container">
+            <div class="auth-welcome" style="font-size: 22px;">Create Account</div>
+            <div style="font-size: 12px; color: #94a3b8; margin-bottom: 15px;">Join Arewa Data Plug Hub</div>
+
+            <div class="input-group-auth">
+                <label>Username</label>
+                <input type="text" id="regUsername" placeholder="e.g. hashim2026">
+            </div>
+            <div class="input-group-auth">
+                <label>Phone Number</label>
+                <input type="tel" id="regPhone" placeholder="08126992470">
+            </div>
+            <div class="input-group-auth">
+                <label>Login Password (Min 8 characters)</label>
+                <input type="password" id="regPassword" placeholder="********" minlength="8">
+            </div>
+            <div class="input-group-auth">
+                <label>Transaction PIN (Exact 4 digits)</label>
+                <input type="password" id="regPin" placeholder="1234" maxlength="4">
+            </div>
+
+            <button class="login-btn" onclick="completeRegistration()">Register Now</button>
+            <div class="auth-links" onclick="showLoginScreen()">Already have an account? Login</div>
+        </div>
+    </div>
+
+    <!-- BUY CONFIRMATION MODAL -->
+    <div id="buyModal">
+        <div class="modal-card">
+            <div style="font-size: 16px; font-weight: bold; color: var(--accent-color); margin-bottom: 10px;">Confirm Purchase</div>
+            <div id="modalPlanDetails" style="font-size: 13px; color: #cbd5e1; margin-bottom: 12px;"></div>
+            
+            <div class="fingerprint-circle" style="width: 55px; height: 55px; margin-bottom: 10px;" onclick="authorizeWithFingerprint()">
+                <div class="fingerprint-icon" style="font-size: 26px;">🔒</div>
+            </div>
+            <div style="font-size: 10px; color: #94a3b8; margin-bottom: 10px;">Tap fingerprint to authorize instantly</div>
+
+            <div class="divider-container" style="margin-bottom: 10px;">OR ENTER PIN</div>
+
+            <div class="form-group">
+                <label>4-Digit Transaction PIN:</label>
+                <input type="password" id="modalPinInput" placeholder="••••" maxlength="4">
+            </div>
+            <button class="submit-btn" onclick="completePurchase()">Authorize & Buy Now</button>
+            <button class="back-btn" style="width: 100%; margin-top: 8px;" onclick="closeModal()">Cancel</button>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <div class="header">
+        <div class="user-info">
+            <div class="user-icon">⚡</div>
+            <span>Arewa Data Plug</span>
+        </div>
+        <div class="app-badge">v1.0 Pro</div>
+    </div>
+
+    <!-- HOME VIEW -->
+    <div id="homeView">
+        <div class="wallet-card">
+            <div class="wallet-top">
+                <span>Wallet Balance</span>
+                <span>Secure 🔒</span>
+            </div>
+            <div class="wallet-balance" id="walletBalanceDisplay">₦0.00</div>
+            <div style="font-size: 11px; color: #a5b4fc; margin-bottom: 4px;">EL-HASHIM INVESTMENT</div>
+            
+            <div class="account-details-box">
+                <div>
+                    <div style="color: #94a3b8; font-size: 10px;">PalmPay</div>
+                    <div style="color: #ffffff; font-weight: bold; font-size: 13px;">6371058401</div>
+                </div>
+                <div>
+                    <button class="copy-acc-btn" onclick="copySpecificAccount('6371058401', 'PalmPay')">📋 Copy</button>
+                </div>
+            </div>
+
+            <div class="account-details-box" style="margin-top: 6px;">
+                <div>
+                    <div style="color: #94a3b8; font-size: 10px;">Moniepoint MFB</div>
+                    <div style="color: #ffffff; font-weight: bold; font-size: 13px;">8126992470</div>
+                </div>
+                <div>
+                    <button class="copy-acc-btn" onclick="copySpecificAccount('8126992470', 'Moniepoint')">📋 Copy</button>
+                </div>
+            </div>
+
+            <div class="wallet-footer">
+                <span>Account Name: EL-HASHIM INVESTMENT</span>
+                <span>Zero Charges (0%)</span>
+            </div>
+        </div>
+
+        <div class="dash-referral-banner">
+            <div>
+                <div>🎁 Refer & Earn ₦50</div>
+                <div>Get ₦50 cash bonus per referral!</div>
+            </div>
+            <button class="copy-ref-btn" onclick="copyReferralLink()">Copy Link</button>
+        </div>
+
+        <div class="quick-actions">
+            <div class="action-item" onclick="openPage('fundView')">
+                <div class="action-icon">💳</div>
+                <span>Fund Wallet</span>
+            </div>
+            <div class="action-item" onclick="openPage('pricingView')">
+                <div class="action-icon">📊</div>
+                <span>Pricing</span>
+            </div>
+            <div class="action-item" onclick="openPage('settingsView')">
+                <div class="action-icon">⚙️</div>
+                <span>Settings</span>
+            </div>
+            <div class="action-item" onclick="openPage('referralView')">
+                <div class="action-icon">🎁</div>
+                <span>Referral</span>
+            </div>
+        </div>
+
+        <div class="section-title">Quick Services</div>
+        <div class="services-grid">
+            <div class="service-card" onclick="openPage('buyDataView')">
+                <div class="icon">📶</div>
+                <span>Buy Data</span>
+            </div>
+            <div class="service-card" onclick="openPage('airtimeView')">
+                <div class="icon">📞</div>
+                <span>Airtime</span>
+            </div>
+            <div class="service-card" onclick="openPage('airtimeToCashView')">
+                <div class="icon">💸</div>
+                <span>Airtime2Cash</span>
+            </div>
+            <div class="service-card" onclick="openPage('electricityView')">
+                <div class="icon">⚡</div>
+                <span>Electricity</span>
+            </div>
+            <div class="service-card" onclick="openPage('tvView')">
+                <div class="icon">📺</div>
+                <span>TV Sub</span>
+            </div>
+            <div class="service-card" onclick="openPage('smsView')">
+                <div class="icon">💬</div>
+                <span>Bulk SMS</span>
+            </div>
+            <div class="service-card" onclick="openPage('examView')">
+                <div class="icon">🎓</div>
+                <span>Exam PIN</span>
+            </div>
+            <div class="service-card" onclick="openPage('historyView')">
+                <div class="icon">📈</div>
+                <span>Transactions</span>
+            </div>
+            <div class="service-card" onclick="openPage('supportView')">
+                <div class="icon">🎧</div>
+                <span>Support</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- PROFILE VIEW -->
+    <div id="profileView" class="page-section">
+        <button class="back-btn" onclick="goHome()">← Back</button>
+        
+        <div class="profile-header-card">
+            <div class="profile-avatar">👤</div>
+            <div class="profile-name">EL-HASHIM INVESTMENT</div>
+            <div class="profile-badge-tag">Verified Account</div>
+        </div>
+
+        <div class="section-title">Account Information</div>
+        <div class="profile-menu-item">
+            <div>
+                <div style="color: #94a3b8; font-size: 11px;">Account Name / Brand</div>
+                <div style="color: var(--text-color); font-weight: bold; margin-top: 2px;">EL-HASHIM INVESTMENT</div>
+            </div>
+            <span style="color: #22c55e; font-size: 12px; font-weight: bold;">Active ✓</span>
+        </div>
+
+        <div class="section-title" style="margin-top: 15px;">Preferences & Theme</div>
+        <div class="profile-menu-item">
+            <div>
+                <div style="font-weight: bold;">App Theme Mode</div>
+                <div style="font-size: 11px; color: #94a3b8;">Switch between Dark and Light mode</div>
+            </div>
+            <select id="themeSelector" onchange="changeTheme(this.value)" style="padding: 6px 10px; border-radius: 6px; background: var(--bg-color); color: var(--text-color); border: 1px solid var(--border-color); font-weight: bold;">
+                <option value="dark">🌙 Dark Mode</option>
+                <option value="light">☀️ Light Mode</option>
+            </select>
+        </div>
+
+        <div class="section-title" style="margin-top: 15px;">Account Security & Session</div>
+        <div class="profile-menu-item" onclick="openPage('settingsView')">
+            <span>🔒 Change Password / 4-Digit PIN</span>
+            <span>➔</span>
+        </div>
+        <div class="profile-menu-item" onclick="signOutCompletely()" style="color: #ef4444; font-weight: bold;">
+            <span>🚪 Sign Out (Exit App)</span>
+            <span>➔</span>
+        </div>
+
+        <div class="section-title" style="margin-top: 15px;">Support & About</div>
+        <div class="profile-menu-item" onclick="openPage('supportView')">
+            <span>🎧 Contact Us (Hotline: 08126992470)</span>
+            <span>➔</span>
+        </div>
+        <div class="profile-menu-item" onclick="alert('Arewa Data Plug v1.0 Pro - Operated by EL-HASHIM INVESTMENT')">
+            <span>ℹ️ About Arewa Data Plug (v1.0.0)</span>
+            <span>➔</span>
+        </div>
+    </div>
+
+    <!-- BUY DATA HUB -->
+    <div id="buyDataView" class="page-section">
+        <button class="back-btn" onclick="goHome()">← Back to Home</button>
+        <div class="section-title" style="margin-bottom: 10px;">Select Network</div>
+        
+        <div class="network-row">
+            <div class="net-select-btn active" id="net-mtn" onclick="selectNetwork('mtn')">
+                <span class="net-badge mtn-badge">M</span> MTN
+            </div>
+            <div class="net-select-btn" id="net-airtel" onclick="selectNetwork('airtel')">
+                <span class="net-badge airtel-badge">A</span> Airtel
+            </div>
+            <div class="net-select-btn" id="net-glo" onclick="selectNetwork('glo')">
+                <span class="net-badge glo-badge">G</span> GLO
+            </div>
+            <div class="net-select-btn" id="net-9mobile" onclick="selectNetwork('9mobile')">
+                <span class="net-badge eti-badge">9</span> 9Mobile
+            </div>
+        </div>
+
+        <div class="section-title">Phone Number</div>
+        <div class="input-box">
+            <input type="tel" id="dataPhoneNumber" placeholder="080XXXXXXXX" oninput="validatePhonePrefix()">
+        </div>
+        <div id="phoneErrorMsg" class="error-msg">⚠️ Invalid prefix! This number does not match the selected network.</div>
+
+        <div class="section-title">Plan Type</div>
+        <div class="plan-type-row" id="planTypeRow">
+            <button class="plan-type-btn active" onclick="selectPlanType('sme')">SME</button>
+            <button class="plan-type-btn" onclick="selectPlanType('gifting')">GIFTING</button>
+            <button class="plan-type-btn" onclick="selectPlanType('corporate')">CORPORATE</button>
+            <button class="plan-type-btn" onclick="selectPlanType('talkmore')">TALK MORE</button>
+        </div>
+
+        <div class="section-title" style="margin-top: 15px;">⚡ High-Speed & Reliable Data Plans</div>
+        <div id="directPlansContainer"></div>
+    </div>
+
+    <!-- AIRTIME PAGE -->
+    <div id="airtimeView" class="page-section">
+        <button class="back-btn" onclick="goHome()">← Back</button>
+        <div class="section-title">Buy Airtime Topup</div>
+        <div class="form-group"><label>Select Network:</label><select id="airtimeNetwork"><option>MTN</option><option>Airtel</option><option>GLO</option><option>9Mobile</option></select></div>
+        <div class="form-group"><label>Phone Number:</label><input type="tel" id="airtimePhone" placeholder="Enter phone number..."></div>
+        <div class="form-group"><label>Amount (₦):</label><input type="number" id="airtimeAmount" placeholder="e.g. 1000"></div>
+        <button class="submit-btn" onclick="confirmAirtimeBuy()">Buy Airtime Now</button>
+    </div>
+
+    <!-- HISTORY VIEW -->
+    <div id="historyView" class="page-section">
+        <button class="back-btn" onclick="goHome()">← Back</button>
+        <div class="section-title">Transaction History</div>
+        <div id="historyContainer">
+            <div class="data-plan-box">
+                <div><div class="plan-title">MTN 1GB SME</div><div class="plan-validity">09 Oct 2026, 06:30 AM</div></div>
+                <span style="color: #22c55e; font-weight: bold; font-size: 13px;">SUCCESS</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- SUPPORT PAGE -->
+    <div id="supportView" class="page-section">
+        <button class="back-btn" onclick="goHome()">← Back</button>
+        <div class="section-title">Customer Support & Help</div>
+        <div style="background: var(--bg-color); border: 1px solid var(--border-color); padding: 15px; border-radius: 10px; margin-bottom: 15px;">
+            <div style="font-weight: bold; color: var(--accent-color); margin-bottom: 5px;">Arewa Data Plug Official Hotline:</div>
+            <div style="font-size: 16px; color: var(--text-color); margin-bottom: 10px;">📞 <b>08126992470</b></div>
+            <div style="font-size: 12px; color: #94a3b8;">You can call or chat us via WhatsApp for instant assistance, wallet funding issues, or complaints.</div>
+        </div>
+        <button class="submit-btn" onclick="alert('Redirecting to WhatsApp: 08126992470')">Chat on WhatsApp</button>
+    </div>
+
+    <!-- REFERRAL PAGE -->
+    <div id="referralView" class="page-section">
+        <button class="back-btn" onclick="goHome()">← Back</button>
+        <div class="section-title">Refer & Earn ₦50 Bonus</div>
+        <p style="font-size: 13px; color: #94a3b8;">Share your referral link! You earn an instant <b>₦50 cash bonus</b> for every friend who joins and transacts through your link.</p>
+        <div class="form-group"><input type="text" id="refLinkInput" value="https://arewadataplug.vtu/register?ref=elhashim" readonly></div>
+        <button class="submit-btn" onclick="copyReferralLink()">Copy Referral Link</button>
+    </div>
+
+    <!-- OTHER PAGES -->
+    <div id="airtimeToCashView" class="page-section">
+        <button class="back-btn" onclick="goHome()">← Back</button>
+        <div class="section-title">Airtime to Cash Exchange</div>
+        <div class="form-group"><label>Network Type:</label><select><option>MTN Airtime Share</option><option>Airtel Me2U</option></select></div>
+        <div class="form-group"><label>Sender Phone Number:</label><input type="tel" placeholder="080XXXXXXXX"></div>
+        <div class="form-group"><label>Amount to Convert (₦):</label><input type="number" placeholder="e.g. 5000"></div>
+        <button class="submit-btn" onclick="alert('Airtime transfer request submitted successfully!')">Convert to Cash</button>
+    </div>
+
+    <div id="electricityView" class="page-section">
+        <button class="back-btn" onclick="goHome()">← Back</button>
+        <div class="section-title">Electricity Bill Payment</div>
+        <div class="form-group"><label>DisCo Provider:</label><select><option>KEDCO (Kano)</option><option>AEDC (Abuja)</option><option>IKEDC (Ikeja)</option></select></div>
+        <div class="form-group"><label>Meter Number:</label><input type="text" placeholder="Enter meter number..."></div>
+        <div class="form-group"><label>Amount (₦):</label><input type="number" placeholder="Enter amount..."></div>
+        <button class="submit-btn" onclick="alert('Electricity bill token generated!')">Pay Electricity Bill</button>
+    </div>
+
+    <div id="tvView" class="page-section">
+        <button class="back-btn" onclick="goHome()">← Back</button>
+        <div class="section-title">TV Subscription</div>
+        <div class="form-group"><label>Select Package:</label><select><option>DStv Bouquet</option><option>GOtv Bouquet</option><option>Startimes</option></select></div>
+        <div class="form-group"><label>Smartcard / IUC Number:</label><input type="text" placeholder="Enter smartcard number..."></div>
+        <button class="submit-btn" onclick="alert('TV subscription verified & paid!')">Verify & Pay</button>
+    </div>
+
+    <div id="smsView" class="page-section">
+        <button class="back-btn" onclick="goHome()">← Back</button>
+        <div class="section-title">Send Bulk SMS</div>
+        <div class="form-group"><label>Sender Name:</label><input type="text" placeholder="e.g. Arewa Data"></div>
+        <div class="form-group"><label>Recipients:</label><input type="text" placeholder="080xxxxxxxx, 090xxxxxxxx"></div>
+        <div class="form-group"><label>Message Content:</label><textarea rows="4" style="width:100%; padding:10px; border-radius:8px; border:1px solid var(--border-color); background:var(--bg-color); color:var(--text-color);" placeholder="Type message..."></textarea></div>
+        <button class="submit-btn" onclick="alert('Bulk SMS sent successfully!')">Send Message</button>
+    </div>
+
+    <div id="examView" class="page-section">
+        <button class="back-btn" onclick="goHome()">← Back</button>
+        <div class="section-title">Buy Exam PIN</div>
+        <div class="form-group"><label>Exam Board:</label><select><option>WAEC Result Checker - ₦3,500</option><option>NECO Token - ₦1,200</option></select></div>
+        <div class="form-group"><label>Quantity:</label><input type="number" value="1" min="1"></div>
+        <button class="submit-btn" onclick="alert('Exam PIN generated successfully!')">Purchase PIN</button>
+    </div>
+
+    <div id="fundView" class="page-section">
+        <button class="back-btn" onclick="goHome()">← Back</button>
+        <div class="section-title">Fund Your Account</div>
+        <div style="background: rgba(76, 201, 240, 0.1); border: 1px solid var(--border-color); padding: 12px; border-radius: 8px; font-size: 13px; margin-bottom: 15px; color: var(--accent-color);">
+            <b>Automated Bank Transfer (Zero Charges - 0%):</b><br>Bank: <b>PalmPay & Moniepoint</b><br>Account Name: <b>EL-HASHIM INVESTMENT</b><br>PalmPay: <b>6371058401</b><br>Moniepoint: <b>8126992470</b>
+        </div>
+        <button class="submit-btn" onclick="alert('Checking payment gateway...')">I Have Made Transfer</button>
+    </div>
+
+    <div id="pricingView" class="page-section">
+        <button class="back-btn" onclick="goHome()">← Back</button>
+        <div class="section-title">Reliable & Cheap Pricing List</div>
+        <div class="data-plan-box"><div><div class="plan-title">MTN 1GB SME (Fast & Stable)</div><div class="plan-validity">Selling: ₦290 | 100% Reliable Delivery</div></div><div class="plan-price-tag">₦290.00</div></div>
+        <div class="data-plan-box"><div><div class="plan-title">MTN 10GB Corporate (Direct Server)</div><div class="plan-validity">Selling: ₦2,900 | High-Speed Network</div></div><div class="plan-price-tag">₦2,900.00</div></div>
+    </div>
+
+    <div id="settingsView" class="page-section">
+        <button class="back-btn" onclick="goHome()">← Back</button>
+        <div class="section-title">Account Settings & Security</div>
+        <div class="form-group"><label>Login Password (Min 8 chars):</label><input type="password" id="settingPassword" placeholder="********" minlength="8"></div>
+        <div class="form-group"><label>4-Digit Transaction PIN:</label><input type="password" id="settingPin" placeholder="••••" maxlength="4"></div>
+        <button class="submit-btn" onclick="alert('Settings & Security updated successfully!')">Save Changes</button>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <div class="bottom-nav">
+        <div class="nav-item active" onclick="goHome()" id="navHome">🏠<br>Home</div>
+        <div class="nav-item" onclick="openPage('historyView')" id="navHistory">🕒<br>History</div>
+        <div class="nav-item" onclick="openPage('supportView')" id="navSupport">🎧<br>Support</div>
+        <div class="nav-item" onclick="openPage('profileView')" id="navProfile">👤<br>Profile</div>
+    </div>
+
+    <script>
+        // Splash screen closing
+        setTimeout(() => {
+            let splash = document.getElementById("splashScreen");
+            if(splash) {
+                splash.style.transition = "opacity 0.4s ease";
+                splash.style.opacity = "0";
+                setTimeout(() => {
+                    splash.style.display = "none";
+                    document.getElementById("authScreen").classList.add('active');
+                }, 400);
+            }
+        }, 1200);
+
+        let userWalletBalance = 0.00;
+        let selectedNetwork = 'mtn';
+        let selectedPlanType = 'sme';
+        let pendingPlanName = '';
+        let pendingPlanPrice = 0;
+        let transactionHistory = [
+            {title: "MTN 1GB SME", date: "09 Oct 2026, 06:30 AM", status: "SUCCESS"}
+        ];
+
+        function verifyAuth() {
+            let pwd = document.getElementById("authPasswordInput").value;
+            if(pwd.length >= 8 || pwd === "") {
+                document.getElementById("authScreen").classList.remove('active');
+            } else {
+                alert("⚠️ Password must be at least 8 characters!");
+            }
+        }
+
+        function simulateFingerprint() {
+            alert("🔒 Fingerprint Authentication Successful!");
+            document.getElementById("authScreen").classList.remove('active');
+        }
+
+        function authorizeWithFingerprint() {
+            alert("🔒 Fingerprint Authorized Successfully!");
+            finalizeSuccessfulTransaction();
+        }
+
+        function showRegisterScreen() {
+            document.getElementById("authScreen").classList.remove('active');
+            document.getElementById("registerScreen").classList.add('active');
+        }
+
+        function showLoginScreen() {
+            document.getElementById("registerScreen").classList.remove('active');
+            document.getElementById("authScreen").classList.add('active');
+        }
+
+        function completeRegistration() {
+            let uName = document.getElementById("regUsername").value;
+            let phone = document.getElementById("regPhone").value;
+            let pwd = document.getElementById("regPassword").value;
+            let pin = document.getElementById("regPin").value;
+
+            if(!uName || !phone || !pwd || !pin) {
+                alert("⚠️ Please fill in all required fields!");
+                return;
+            }
+            if(pwd.length < 8) {
+                alert("⚠️ Password must be at least 8 characters!");
+                return;
+            }
+            if(pin.length !== 4) {
+                alert("⚠️ Transaction PIN must be exactly 4 digits!");
+                return;
+            }
+
+            alert("🎉 Registration Successful! Welcome to Arewa Data Plug.");
+            document.getElementById("registerScreen").classList.remove('active');
+        }
+
+        function copySpecificAccount(accNo, bankName) {
+            navigator.clipboard.writeText(accNo);
+            alert(`📋 ${bankName} Account Number (${accNo}) Copied Successfully!`);
+        }
+
+        function copyReferralLink() {
+            let link = "https://arewadataplug.vtu/register?ref=elhashim";
+            navigator.clipboard.writeText(link);
+            alert("🎁 Referral Link Copied! Share with friends to earn ₦50 per referral.");
+        }
+
+        function changeTheme(mode) {
+            if(mode === 'light') {
+                document.body.classList.add('light-theme');
+                document.getElementById('themeSelector').value = 'light';
+            } else {
+                document.body.classList.remove('light-theme');
+                document.getElementById('themeSelector').value = 'dark';
+            }
+        }
+
+        function signOutCompletely() {
+            if(confirm("Are you sure you want to Sign Out completely?")) {
+                document.getElementById("authPasswordInput").value = "";
+                document.getElementById("authScreen").classList.add('active');
+                goHome();
+            }
+        }
+
+        function validatePhonePrefix() {
+            let phone = document.getElementById("dataPhoneNumber").value;
+            let errorMsg = document.getElementById("phoneErrorMsg");
+            if(phone.length >= 4) {
+                let prefix = phone.substring(0, 4);
+                let mtnPrefixes = ['0803', '0806', '0703', '0706', '0813', '0814', '0816', '0903', '0906', '0913', '0916'];
+                let airtelPrefixes = ['0802', '0808', '0701', '0708', '0812', '0902', '0901', '0904', '0907'];
+                let gloPrefixes = ['0805', '0807', '0705', '0811', '0815', '0905'];
+                let etisalatPrefixes = ['0809', '0817', '0818', '0908', '0909'];
+
+                let isValid = true;
+                if(selectedNetwork === 'mtn' && !mtnPrefixes.includes(prefix)) isValid = false;
+                if(selectedNetwork === 'airtel' && !airtelPrefixes.includes(prefix)) isValid = false;
+                if(selectedNetwork === 'glo' && !gloPrefixes.includes(prefix)) isValid = false;
+                if(selectedNetwork === '9mobile' && !etisalatPrefixes.includes(prefix)) isValid = false;
+
+                if(!isValid && phone.length >= 4) {
+                    errorMsg.style.display = "block";
+                } else {
+                    errorMsg.style.display = "none";
+                }
+            } else {
+                errorMsg.style.display = "none";
+            }
+        }
+
+        function openPage(pageId) {
+            document.getElementById("homeView").style.display = "none";
+            document.querySelectorAll(".page-section").forEach(el => el.style.display = "none");
+            document.getElementById(pageId).style.display = "block";
+            
+            document.querySelectorAll(".nav-item").forEach(el => el.classList.remove('active'));
+            if(pageId === 'historyView') document.getElementById('navHistory').classList.add('active');
+            else if(pageId === 'supportView') document.getElementById('navSupport').classList.add('active');
+            else if(pageId === 'profileView') document.getElementById('navProfile').classList.add('active');
+
+            if(pageId === 'buyDataView') {
+                renderPlans();
+            }
+            if(pageId === 'historyView') {
+                renderHistory();
+            }
+        }
+
+        function goHome() {
+            document.querySelectorAll(".page-section").forEach(el => el.style.display = "none");
+            document.getElementById("homeView").style.display = "block";
+            document.querySelectorAll(".nav-item").forEach(el => el.classList.remove('active'));
+            document.getElementById('navHome').classList.add('active');
+        }
+
+        function selectNetwork(net) {
+            selectedNetwork = net;
+            ['mtn', 'airtel', 'glo', '9mobile'].forEach(n => {
+                document.getElementById('net-' + n).classList.remove('active');
+            });
+            document.getElementById('net-' + net).classList.add('active');
+            validatePhonePrefix();
+            renderPlans();
+        }
+
+        function selectPlanType(type) {
+            selectedPlanType = type;
+            let buttons = document.querySelectorAll("#planTypeRow .plan-type-btn");
+            buttons.forEach(btn => {
+                btn.classList.remove('active');
+                if(btn.innerText.toLowerCase().includes(type)) {
+                    btn.classList.add('active');
+                }
+            });
+            renderPlans();
+        }
+
+        function confirmBuy(planDetails, price) {
+            pendingPlanName = planDetails;
+            pendingPlanPrice = price;
+            document.getElementById("modalPlanDetails").innerText = `Purchase: ${planDetails} (₦${price})`;
+            document.getElementById("modalPinInput").value = "";
+            document.getElementById("buyModal").style.display = "flex";
+        }
+
+        function confirmAirtimeBuy() {
+            let net = document.getElementById("airtimeNetwork").value;
+            let phone = document.getElementById("airtimePhone").value;
+            let amt = parseFloat(document.getElementById("airtimeAmount").value);
+            if(!phone || isNaN(amt)) {
+                alert("⚠️ Please enter phone number and amount for airtime!");
+                return;
+            }
+            pendingPlanName = `${net} Airtime ₦${amt} (${phone})`;
+            pendingPlanPrice = amt;
+            document.getElementById("modalPlanDetails").innerText = `Purchase: ${pendingPlanName}`;
+            document.getElementById("modalPinInput").value = "";
+            document.getElementById("buyModal").style.display = "flex";
+        }
+
+        function closeModal() {
+            document.getElementById("buyModal").style.display = "none";
+        }
+
+        function completePurchase() {
+            let enteredPin = document.getElementById("modalPinInput").value;
+            if(enteredPin.length !== 4) {
+                alert("⚠️ Please enter your exact 4-digit Transaction PIN!");
+                return;
+            }
+            finalizeSuccessfulTransaction();
+        }
+
+        function finalizeSuccessfulTransaction() {
+            let now = new Date();
+            let dateStr = now.toLocaleDateString() + ", " + now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            transactionHistory.unshift({title: pendingPlanName, date: dateStr, status: "SUCCESS"});
+            
+            alert("🎉 Transaction Authorized & Delivered Successfully!");
+            closeModal();
+            goHome();
+        }
+
+        function renderHistory() {
+            let container = document.getElementById("historyContainer");
+            let html = "";
+            transactionHistory.forEach(item => {
+                html += `
+                    <div class="data-plan-box">
+                        <div><div class="plan-title">${item.title}</div><div class="plan-validity">${item.date}</div></div>
+                        <span style="color: #22c55e; font-weight: bold; font-size: 13px;">${item.status}</span>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function renderPlans() {
+            let container = document.getElementById("directPlansContainer");
+            let plansHTML = "";
+
+            if(selectedNetwork === 'mtn' && selectedPlanType === 'sme') {
+                plansHTML = `
+                    <div class="data-plan-box" onclick="confirmBuy('MTN 500MB SME', 250)"><div><div class="plan-title">500MB SME</div><div class="plan-validity">Weekly validity</div><div class="plan-guarantee">⚡ Fast & Stable • 30 Days</div></div><div><div class="plan-price-tag">₦250.00</div></div></div>
+                    <div class="data-plan-box" onclick="confirmBuy('MTN 1GB SME', 290)"><div><div class="plan-title">1GB SME</div><div class="plan-validity">Monthly validity</div><div class="plan-guarantee">🛡️ Official Network • 100% Reliable</div></div><div><div class="plan-price-tag">₦290.00</div></div></div>
+                    <div class="data-plan-box" onclick="confirmBuy('MTN 2GB SME', 580)"><div><div class="plan-title">2GB SME</div><div class="plan-validity">Monthly validity</div><div class="plan-guarantee">⚡ High-Speed Delivery</div></div><div><div class="plan-price-tag">₦580.00</div></div></div>
+                    <div class="data-plan-box" onclick="confirmBuy('MTN 5GB SME', 1450)"><div><div class="plan-title">5GB SME</div><div class="plan-validity">Monthly validity</div><div class="plan-guarantee">⚡ Instant Delivery • Best Value</div></div><div><div class="plan-price-tag">₦1,450.00</div></div></div>
+                    <div class="data-plan-box" onclick="confirmBuy('MTN 10GB SME', 2900)"><div><div class="plan-title">10GB SME</div><div class="plan-validity">Monthly validity</div><div class="plan-guarantee">🛡️ Enterprise Grade • 100% Reliable</div></div><div><div class="plan-price-tag">₦2,900.00</div></div></div>
+                `;
+            } else if(selectedNetwork === 'mtn' && selectedPlanType === 'corporate') {
+                plansHTML = `
+                    <div class="data-plan-box" onclick="confirmBuy('MTN 1GB Corporate', 300)"><div><div class="plan-title">1GB Corporate</div><div class="plan-validity">Monthly validity</div><div class="plan-guarantee">⚡ Direct Gateway • Stable</div></div><div><div class="plan-price-tag">₦300.00</div></div></div>
+                    <div class="data-plan-box" onclick="confirmBuy('MTN 2GB Corporate', 600)"><div><div class="plan-title">2GB Corporate</div><div class="plan-validity">Monthly validity</div><div class="plan-guarantee">🛡️ Super Fast • Never Expires Early</div></div><div><div class="plan-price-tag">₦600.00</div></div></div>
+                    <div class="data-plan-box" onclick="confirmBuy('MTN 5GB Corporate', 1450)"><div><div class="plan-title">5GB Corporate</div><div class="plan-validity">Monthly validity</div><div class="plan-guarantee">⚡ High-Speed Reliable Data</div></div><div><div class="plan-price-tag">₦1,450.00</div></div></div>
+                    <div class="data-plan-box" onclick="confirmBuy('MTN 10GB Corporate', 2900)"><div><div class="plan-title">10GB Corporate</div><div class="plan-validity">Monthly validity</div><div class="plan-guarantee">🛡️ Official Corporate Gateway</div></div><div><div class="plan-price-tag">₦2,900.00</div></div></div>
+                    <div class="data-plan-box" onclick="confirmBuy('MTN 20GB Corporate', 5700)"><div><div class="plan-title">20GB Corporate</div><div class="plan-validity">Monthly validity</div><div class="plan-guarantee">⚡ Heavy Duty • 100% Reliable</div></div><div><div class="plan-price-tag">₦5,700.00</div></div></div>
+                `;
+            } else {
+                plansHTML = `
+                    <div class="data-plan-box" onclick="confirmBuy('1GB ' + selectedNetwork.toUpperCase(), 350)"><div><div class="plan-title">1GB (${selectedNetwork.toUpperCase()})</div><div class="plan-validity">Monthly validity</div><div class="plan-guarantee">⚡ Fast & Stable Connection</div></div><div><div class="plan-price-tag">₦350.00</div></div></div>
+                    <div class="data-plan-box" onclick="confirmBuy('2GB ' + selectedNetwork.toUpperCase(), 700)"><div><div class="plan-title">2GB (${selectedNetwork.toUpperCase()})</div><div class="plan-validity">Monthly validity</div><div class="plan-guarantee">🛡️ Official Network Guarantee</div></div><div><div class="plan-price-tag">₦700.00</div></div></div>
+                    <div class="data-plan-box" onclick="confirmBuy('5GB ' + selectedNetwork.toUpperCase(), 1750)"><div><div class="plan-title">5GB (${selectedNetwork.toUpperCase()})</div><div class="plan-validity">Monthly validity</div><div class="plan-guarantee">⚡ High-Speed Delivery</div></div><div><div class="plan-price-tag">₦1,750.00</div></div></div>
+                `;
+            }
+
+            container.innerHTML = plansHTML;
+        }
+    </script>
+</body>
+</html>
