@@ -1,258 +1,848 @@
 <!DOCTYPE html>
 <html lang="ha">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arewa Data Plug - EL-HASHIM INVESTMENT</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        body {
-            background-color: #f4f7f6;
-            color: #333;
-            padding: 15px;
-        }
-        .container {
-            max-width: 480px;
-            margin: 0 auto;
-            background: #fff;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-        header {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        header h1 {
-            color: #0d6efd;
-            font-size: 22px;
-            margin-bottom: 5px;
-        }
-        header p {
-            color: #666;
-            font-size: 12px;
-            font-weight: bold;
-        }
-        /* Dashboard Cards */
-        .cards-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-        .card {
-            padding: 15px 10px;
-            border-radius: 12px;
-            color: white;
-            text-align: center;
-        }
-        .wallet-card {
-            background: linear-gradient(135deg, #0d6efd, #0dcaf0);
-        }
-        .profit-card {
-            background: linear-gradient(135deg, #198754, #20c997);
-        }
-        .card h3 {
-            font-size: 11px;
-            font-weight: normal;
-            opacity: 0.9;
-        }
-        .card h2 {
-            font-size: 18px;
-            margin: 8px 0;
-        }
-        .section-title {
-            font-size: 14px;
-            font-weight: bold;
-            margin: 15px 0 8px 0;
-            color: #444;
-            border-left: 4px solid #0d6efd;
-            padding-left: 8px;
-        }
-        /* Payment Methods Grid */
-        .payment-methods {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 8px;
-            margin-bottom: 15px;
-        }
-        .pay-option {
-            border: 2px solid #ddd;
-            padding: 10px 5px;
-            border-radius: 8px;
-            text-align: center;
-            font-size: 12px;
-            cursor: pointer;
-            background: #fafafa;
-        }
-        .pay-option.active {
-            border-color: #0d6efd;
-            background: #e7f1ff;
-            color: #0d6efd;
-            font-weight: bold;
-        }
-        .form-group {
-            margin-bottom: 12px;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-size: 13px;
-            color: #555;
-        }
-        select, input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 14px;
-        }
-        .btn-submit {
-            width: 100%;
-            background: #0d6efd;
-            color: white;
-            padding: 12px;
-            border: none;
-            border-radius: 8px;
-            font-size: 15px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 5px;
-        }
-        .btn-submit:hover {
-            background: #0b5ed7;
-        }
-        /* Profit History / Ledger */
-        .profit-history {
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 10px;
-            max-height: 150px;
-            overflow-y: auto;
-            border: 1px solid #eee;
-        }
-        .history-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 6px 0;
-            border-bottom: 1px solid #e9ecef;
-            font-size: 12px;
-        }
-        .history-item:last-child {
-            border-bottom: none;
-        }
-        .profit-amount {
-            color: #198754;
-            font-weight: bold;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#075b45">
+<title>Arewa Data Plug | EL-HASHIM INVESTMENT</title>
+
+<style>
+:root {
+  --green: #075b45;
+  --green2: #087f5b;
+  --gold: #f5c451;
+  --bg: #f3f6f5;
+  --card: #ffffff;
+  --text: #172b25;
+  --muted: #718079;
+  --border: #e3eae6;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+button, input, select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 3px solid #f5c451;
+  outline-offset: 2px;
+}
+
+.app {
+  max-width: 480px;
+  margin: auto;
+  min-height: 100vh;
+  background: var(--bg);
+  padding-bottom: 85px;
+}
+
+.header {
+  background: var(--green);
+  color: white;
+  padding: 24px 20px 28px;
+  border-radius: 0 0 26px 26px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  width: 46px;
+  height: 46px;
+  background: var(--gold);
+  color: var(--green);
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.brand h1 {
+  font-size: 18px;
+  line-height: 1.4;
+}
+
+.brand p {
+  font-size: 11px;
+  color: #d5e8df;
+  letter-spacing: 1px;
+}
+
+.greeting {
+  margin-top: 26px;
+}
+
+.greeting p {
+  color: #d5e8df;
+  font-size: 13px;
+}
+
+.greeting h2 {
+  font-size: 22px;
+  margin-top: 7px;
+}
+
+main {
+  padding: 18px;
+}
+
+.balance-card {
+  background: linear-gradient(135deg, #075b45, #098766);
+  color: white;
+  padding: 23px;
+  border-radius: 22px;
+  margin-top: -2px;
+  box-shadow: 0 8px 24px #075b4520;
+}
+
+.balance-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.balance-label {
+  color: #d5e8df;
+  font-size: 13px;
+}
+
+.balance {
+  font-size: 30px;
+  font-weight: bold;
+  margin-top: 12px;
+}
+
+.badge {
+  background: #ffffff20;
+  padding: 7px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+}
+
+.balance-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+.balance-actions button {
+  flex: 1;
+  padding: 12px 8px;
+  border: 1px solid #ffffff55;
+  background: #ffffff12;
+  color: white;
+  border-radius: 12px;
+  font-weight: bold;
+}
+
+.balance-actions button:first-child {
+  background: var(--gold);
+  color: #20372d;
+  border-color: var(--gold);
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 26px 0 14px;
+}
+
+.section-title h3 {
+  font-size: 17px;
+}
+
+.section-title button {
+  background: none;
+  border: 0;
+  color: var(--green2);
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.services {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.service {
+  border: 1px solid var(--border);
+  border-radius: 17px;
+  background: var(--card);
+  padding: 17px 5px;
+  text-align: center;
+  color: var(--text);
+}
+
+.service .icon {
+  width: 47px;
+  height: 47px;
+  margin: 0 auto 10px;
+  display: grid;
+  place-items: center;
+  background: #e5f5ee;
+  border-radius: 15px;
+  font-size: 23px;
+}
+
+.service h4 {
+  font-size: 12px;
+}
+
+.service p {
+  color: var(--muted);
+  font-size: 10px;
+  margin-top: 5px;
+}
+
+.notice {
+  margin-top: 22px;
+  padding: 15px;
+  border-radius: 15px;
+  background: #fff6db;
+  color: #705516;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.transaction-list {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 17px;
+  overflow: hidden;
+}
+
+.transaction {
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.transaction:last-child {
+  border-bottom: 0;
+}
+
+.tx-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 13px;
+  display: grid;
+  place-items: center;
+  background: #e5f5ee;
+  font-size: 20px;
+}
+
+.tx-info {
+  flex: 1;
+}
+
+.tx-info h4 {
+  font-size: 13px;
+}
+
+.tx-info p {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 5px;
+}
+
+.tx-amount {
+  text-align: right;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.tx-amount small {
+  display: block;
+  color: #a36a00;
+  font-size: 10px;
+  margin-top: 5px;
+}
+
+.page {
+  display: none;
+}
+
+.page.active {
+  display: block;
+}
+
+.panel {
+  background: var(--card);
+  border: 1px solid var(--border);
+  padding: 20px;
+  border-radius: 19px;
+  margin-top: 5px;
+}
+
+.panel h2 {
+  font-size: 20px;
+  margin-bottom: 8px;
+}
+
+.panel > p {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.field {
+  margin-bottom: 16px;
+}
+
+.field label {
+  display: block;
+  font-size: 13px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.field input,
+.field select {
+  width: 100%;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: white;
+  color: var(--text);
+}
+
+.primary-btn {
+  width: 100%;
+  border: 0;
+  border-radius: 12px;
+  padding: 15px;
+  background: var(--green);
+  color: white;
+  font-weight: bold;
+  margin-top: 4px;
+}
+
+.secondary-btn {
+  width: 100%;
+  border: 1px solid var(--green);
+  border-radius: 12px;
+  padding: 13px;
+  background: white;
+  color: var(--green);
+  font-weight: bold;
+  margin-top: 12px;
+}
+
+.info-box {
+  padding: 14px;
+  border-radius: 12px;
+  background: #e5f5ee;
+  color: var(--green);
+  font-size: 12px;
+  line-height: 1.7;
+  margin-top: 15px;
+}
+
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 480px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  background: white;
+  border-top: 1px solid var(--border);
+  padding: 10px 5px calc(10px + env(safe-area-inset-bottom));
+  z-index: 10;
+}
+
+.nav-btn {
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  padding: 5px 0;
+  font-size: 11px;
+  display: grid;
+  gap: 5px;
+  justify-items: center;
+}
+
+.nav-btn span {
+  font-size: 21px;
+}
+
+.nav-btn.active {
+  color: var(--green);
+  font-weight: bold;
+}
+
+.empty {
+  text-align: center;
+  color: var(--muted);
+  padding: 28px 12px;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.footer {
+  text-align: center;
+  padding: 25px 10px;
+  font-size: 10px;
+  color: var(--muted);
+}
+
+@media (max-width: 350px) {
+  main {
+    padding: 12px;
+  }
+
+  .services {
+    gap: 7px;
+  }
+
+  .service h4 {
+    font-size: 11px;
+  }
+
+  .balance {
+    font-size: 26px;
+  }
+}
+</style>
 </head>
+
 <body>
+<div class="app">
 
-    <div class="container">
-        <header>
-            <h1>Arewa Data Plug</h1>
-            <p>EL-HASHIM INVESTMENT (Gaskiya da Rikon Amana)</p>
-        </header>
-
-        <!-- Wallet da Sashen Riba -->
-        <div class="cards-grid">
-            <div class="card wallet-card">
-                <h3>Babban Wallet ɗinka</h3>
-                <h2 id="wallet-balance">₦0.00</h2>
-            </div>
-            <div class="card profit-card">
-                <h3>Ribar da Ta Tara</h3>
-                <h2 id="total-profit">₦150.00</h2>
-            </div>
-        </div>
-
-        <!-- Tsarin Zaɓin Biyan Kuɗi -->
-        <div class="section-title">Zaɓi Hanyar Sanya Kuɗi (Funding)</div>
-        <div class="payment-methods">
-            <div class="pay-option active" onclick="setPayment('virtual')">Virtual Acct</div>
-            <div class="pay-option" onclick="setPayment('atm')">ATM Card</div>
-            <div class="pay-option" onclick="setPayment('transfer')">Bank Transfer</div>
-        </div>
-
-        <div class="form-group" id="funding-box">
-            <label>Shigar da Adadin Kuɗin da Zaka Saka (₦)</label>
-            <input type="number" id="fund-amount" placeholder="Misali: 1000">
-        </div>
-        <button class="btn-submit" style="background: #198754; margin-bottom: 15px;" onclick="fundWallet()">Saka Kuɗi a Wallet</button>
-
-        <!-- Sashen Sayar da Data -->
-        <div class="section-title">Sayar da Data (Automated)</div>
-        <div class="form-group">
-            <label>Zaɓi Network da Plan</label>
-            <select id="network-select">
-                <option value="MTN 1GB (Riba: ₦30)">MTN 1GB - ₦300 (Riba: ₦30)</option>
-                <option value="AIRTEL 1GB (Riba: ₦25)">AIRTEL 1GB - ₦300 (Riba: ₦25)</option>
-                <option value="GLO 1GB (Riba: ₦20)">GLO 1GB - ₦250 (Riba: ₦20)</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label>Lambar Wayar Karɓar Data</label>
-            <input type="tel" id="target-phone" placeholder="08012345678">
-        </div>
-
-        <button class="btn-submit" onclick="simulateSale()">Sayi Data Yanzu</button>
-
-        <!-- Wajen Ajiye da Nuna Riba Na Musamman -->
-        <div class="section-title">Tarihin Ribar Ka (Profit Dashboard)</div>
-        <div class="profit-history" id="profit-log">
-            <div class="history-item">
-                <span>MTN 1GB (0803***)</span>
-                <span class="profit-amount">+₦30.00</span>
-            </div>
-            <div class="history-item">
-                <span>AIRTEL 500MB (0808***)</span>
-                <span class="profit-amount">+₦25.00</span>
-            </div>
-        </div>
+  <header class="header">
+    <div class="brand">
+      <div class="logo">A</div>
+      <div>
+        <h1>AREWA DATA PLUG</h1>
+        <p>EL-HASHIM INVESTMENT</p>
+      </div>
     </div>
 
-    <script>
-        let currentWallet = 0.00;
-        let currentProfit = 150.00;
+    <div class="greeting">
+      <p>Maraba da zuwa 👋</p>
+      <h2 id="welcomeName">Barka da zuwa!</h2>
+    </div>
+  </header>
 
-        function setPayment(method) {
-            document.querySelectorAll('.pay-option').forEach(el => el.classList.remove('active'));
-            event.currentTarget.classList.add('active');
-        }
+  <main>
 
-        function fundWallet() {
-            const amt = parseFloat(document.getElementById('fund-amount').value);
-            if(isNaN(amt) || amt <= 0) {
-                alert('Don Allah shigar da ingantaccen adadin kuɗi!');
-                return;
-            }
-            currentWallet += amt;
-            document.getElementById('wallet-balance').innerText = '₦' + currentWallet.toFixed(2);
-            alert('An sanya kuɗi a wallet cikin nasara!');
-            document.getElementById('fund-amount').value = '';
-        }
+    <!-- HOME -->
+    <section id="homePage" class="page active">
 
-        function simulateSale() {
-            const selectPlan = document.getElementById('network-select').value;
-            // Za mu cire kudin data a wallet ko kuma mu lissafta komai
-            currentProfit += 30.00;
-            document.getElementById('total-profit').innerText = '₦' + currentProfit.toFixed(2);
-            
-            const logContainer = document.getElementById('profit-log');
-            const newItem = document.createElement('div');
-            newItem.className = 'history-item';
-            newItem.innerHTML = `<span>${selectPlan}</span><span class="profit-amount">+₦30.00</span>`;
-            logContainer.prepend(newItem);
+      <div class="balance-card">
+        <div class="balance-top">
+          <span class="balance-label">Wallet balance</span>
+          <span class="badge">NGN ₦</span>
+        </div>
 
-            alert('An yi nasarar sayar da data! An zuba ribar ka kai tsaye a wajen ajiyar riba.');
-        }
-    </script>
+        <div class="balance">₦0.00</div>
+
+        <div class="balance-actions">
+          <button onclick="showPage('walletPage')">
+            + Fund wallet
+          </button>
+          <button onclick="showPage('transactionsPage')">
+            Transactions
+          </button>
+        </div>
+      </div>
+
+      <div class="section-title">
+        <h3>Our Services</h3>
+        <button onclick="showPage('servicesPage')">View all</button>
+      </div>
+
+      <div class="services">
+        <button class="service" onclick="openService('data')">
+          <div class="icon">📶</div>
+          <h4>Buy Data</h4>
+          <p>Data bundles</p>
+        </button>
+
+        <button class="service" onclick="openService('airtime')">
+          <div class="icon">📱</div>
+          <h4>Airtime</h4>
+          <p>Recharge</p>
+        </button>
+
+        <button class="service" onclick="showPage('walletPage')">
+          <div class="icon">💳</div>
+          <h4>Fund Wallet</h4>
+          <p>Add money</p>
+        </button>
+
+        <button class="service" onclick="showPage('transactionsPage')">
+          <div class="icon">🧾</div>
+          <h4>History</h4>
+          <p>Transactions</p>
+        </button>
+
+        <button class="service" onclick="showPage('profilePage')">
+          <div class="icon">👤</div>
+          <h4>My Account</h4>
+          <p>Profile</p>
+        </button>
+
+        <button class="service" onclick="showPage('supportPage')">
+          <div class="icon">💬</div>
+          <h4>Support</h4>
+          <p>Get help</p>
+        </button>
+      </div>
+
+      <div class="notice">
+        <strong>ℹ️ Bayani:</strong>
+        Wannan sabon tsarin frontend ne. Ba a haɗa wallet,
+        biyan kuɗi ko VTU provider ba tukuna. Kada ka saka kuɗi
+        ko ka dogara da wannan shafin wajen ciniki a yanzu.
+      </div>
+
+      <div class="section-title">
+        <h3>Recent Transactions</h3>
+        <button onclick="showPage('transactionsPage')">See all</button>
+      </div>
+
+      <div class="transaction-list">
+        <div class="empty">
+          🧾<br><br>
+          Babu transaction tukuna.<br>
+          Tarihin ciniki zai bayyana nan bayan an haɗa tsarin gaske.
+        </div>
+      </div>
+
+    </section>
+
+    <!-- SERVICES -->
+    <section id="servicesPage" class="page">
+      <div class="section-title">
+        <h3>All Services</h3>
+      </div>
+
+      <div class="services">
+        <button class="service" onclick="openService('data')">
+          <div class="icon">📶</div>
+          <h4>Buy Data</h4>
+        </button>
+
+        <button class="service" onclick="openService('airtime')">
+          <div class="icon">📱</div>
+          <h4>Airtime</h4>
+        </button>
+
+        <button class="service" onclick="showPage('walletPage')">
+          <div class="icon">💳</div>
+          <h4>Fund Wallet</h4>
+        </button>
+      </div>
+
+      <div id="serviceForm" class="panel" style="margin-top:20px">
+        <h2>Zaɓi sabis</h2>
+        <p>Zaɓi sayen data ko airtime daga sama.</p>
+      </div>
+    </section>
+
+    <!-- WALLET -->
+    <section id="walletPage" class="page">
+      <div class="panel">
+        <h2>My Wallet</h2>
+        <p>
+          Za a haɗa wannan wallet da tsarin biyan kuɗi
+          mai tabbatar da payment kafin a ƙara balance.
+        </p>
+
+        <div class="balance-card">
+          <div class="balance-label">Current balance</div>
+          <div class="balance">₦0.00</div>
+        </div>
+
+        <div class="info-box">
+          Wallet ɗin bai haɗu da payment gateway ba tukuna.
+          Kada ka tura kuɗi zuwa account da wannan demo ya nuna.
+        </div>
+
+        <button class="primary-btn" onclick="showMessage(
+          'Ba a haɗa payment gateway ba tukuna. Wannan demo ba ya karɓar kuɗi.'
+        )">
+          Fund Wallet — Setup Pending
+        </button>
+      </div>
+    </section>
+
+    <!-- TRANSACTIONS -->
+    <section id="transactionsPage" class="page">
+      <div class="panel">
+        <h2>Transaction History</h2>
+        <p>
+          Za a nuna transaction ID, adadi, lokaci da sakamakon
+          ciniki bayan an haɗa backend da provider.
+        </p>
+
+        <div class="empty">
+          🧾<br><br>
+          Babu transaction tukuna.<br>
+          Ba a ƙirƙiri ciniki na ƙarya a wannan tsarin ba.
+        </div>
+      </div>
+    </section>
+
+    <!-- PROFILE -->
+    <section id="profilePage" class="page">
+      <div class="panel">
+        <h2>My Account</h2>
+        <p>AREWA DATA PLUG — EL-HASHIM INVESTMENT</p>
+
+        <div class="field">
+          <label>Account system</label>
+          <input value="Registration system not connected" readonly>
+        </div>
+
+        <div class="field">
+          <label>Security</label>
+          <input value="Secure authentication pending" readonly>
+        </div>
+
+        <div class="info-box">
+          Ba a adana password ko bayanan sirri a wannan demo ba.
+          Za mu haɗa ingantaccen login da database a mataki na gaba.
+        </div>
+      </div>
+    </section>
+
+    <!-- SUPPORT -->
+    <section id="supportPage" class="page">
+      <div class="panel">
+        <h2>Customer Support</h2>
+        <p>
+          Za a saka ingantaccen hanyar tuntuɓar support
+          bayan an tabbatar da lambar waya ko adireshin kasuwanci.
+        </p>
+
+        <div class="info-box">
+          Support contact: Coming soon.<br>
+          Ba a saka lambar waya ta ƙarya ba.
+        </div>
+      </div>
+    </section>
+
+    <div class="footer">
+      AREWA DATA PLUG<br>
+      EL-HASHIM INVESTMENT<br>
+      Secure VTU platform — setup in progress.
+    </div>
+
+  </main>
+
+  <nav class="bottom-nav">
+    <button class="nav-btn active" data-page="homePage"
+      onclick="showPage('homePage')">
+      <span>🏠</span>Home
+    </button>
+
+    <button class="nav-btn" data-page="servicesPage"
+      onclick="showPage('servicesPage')">
+      <span>📶</span>Services
+    </button>
+
+    <button class="nav-btn" data-page="transactionsPage"
+      onclick="showPage('transactionsPage')">
+      <span>🧾</span>History
+    </button>
+
+    <button class="nav-btn" data-page="profilePage"
+      onclick="showPage('profilePage')">
+      <span>👤</span>Account
+    </button>
+  </nav>
+
+</div>
+
+<script>
+"use strict";
+
+const pages = document.querySelectorAll(".page");
+const navButtons = document.querySelectorAll(".nav-btn");
+
+function showPage(pageId) {
+  pages.forEach(page => {
+    page.classList.toggle("active", page.id === pageId);
+  });
+
+  navButtons.forEach(button => {
+    button.classList.toggle(
+      "active",
+      button.dataset.page === pageId
+    );
+  });
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function showMessage(message) {
+  alert(message);
+}
+
+function openService(type) {
+  showPage("servicesPage");
+
+  const form = document.getElementById("serviceForm");
+
+  if (type === "data") {
+    form.innerHTML = `
+      <h2>Buy Data</h2>
+      <p>Data bundles will be loaded from a real VTU provider later.</p>
+
+      <div class="field">
+        <label>Network</label>
+        <select id="dataNetwork">
+          <option value="">Select network</option>
+          <option value="MTN">MTN</option>
+          <option value="Airtel">Airtel</option>
+          <option value="Glo">Glo</option>
+          <option value="9mobile">9mobile</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Phone number</label>
+        <input id="dataPhone" type="tel"
+          inputmode="numeric" maxlength="11"
+          placeholder="08012345678">
+      </div>
+
+      <div class="field">
+        <label>Data plan</label>
+        <select id="dataPlan">
+          <option value="">Select data plan</option>
+        </select>
+      </div>
+
+      <div class="info-box">
+        Plans and prices are not connected to a provider yet.
+        No purchase will be made.
+      </div>
+
+      <button class="primary-btn" onclick="requestData()">
+        Continue — Setup Pending
+      </button>
+    `;
+
+    document.getElementById("dataNetwork")
+      .addEventListener("change", updatePlans);
+  }
+
+  if (type === "airtime") {
+    form.innerHTML = `
+      <h2>Buy Airtime</h2>
+      <p>Za a haɗa wannan sabis da VTU API daga baya.</p>
+
+      <div class="field">
+        <label>Network</label>
+        <select id="airNetwork">
+          <option value="">Select network</option>
+          <option>MTN</option>
+          <option>Airtel</option>
+          <option>Glo</option>
+          <option>9mobile</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Phone number</label>
+        <input id="airPhone" type="tel"
+          inputmode="numeric" maxlength="11"
+          placeholder="08012345678">
+      </div>
+
+      <div class="field">
+        <label>Amount (₦)</label>
+        <input id="airAmount" type="number"
+          min="50" max="50000" placeholder="1000">
+      </div>
+
+      <div class="info-box">
+        Wannan form ɗin demo ne. Ba zai aika airtime ba.
+      </div>
+
+      <button class="primary-btn" onclick="requestAirtime()">
+        Continue — Setup Pending
+      </button>
+    `;
+  }
+
+  form.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function updatePlans() {
+  const network = document.getElementById("dataNetwork");
+  const plan = document.getElementById("dataPlan");
+
+  if (!network || !plan) return;
+
+  plan.innerHTML = '<option value="">Plans not connected yet</option>';
+}
+
+function requestData() {
+  const network = document.getElementById("dataNetwork").value;
+  const phone = document.getElementById("dataPhone").value.trim();
+
+  if (!network || !/^0\d{10}$/.test(phone)) {
+    alert("Ka zaɓi network kuma ka shigar da lambar waya mai lamba 11.");
+    return;
+  }
+
+  alert(
+    "An duba bayanan form ɗin. Ba a aika data ba saboda ba a haɗa VTU API tukuna."
+  );
+}
+
+function requestAirtime() {
+  const network = document.getElementById("airNetwork").value;
+  const phone = document.getElementById("airPhone").value.trim();
+  const amount = Number(document.getElementById("airAmount").value);
+
+  if (!network || !/^0\d{10}$/.test(phone)) {
+    alert("Ka zaɓi network kuma ka shigar da lambar waya mai lamba 11.");
+    return;
+  }
+
+  if (!Number.isFinite(amount) || amount < 50 || amount > 50000) {
+    alert("Shigar da adadin kuɗi tsakanin ₦50 da ₦50,000.");
+    return;
+  }
+
+  alert(
+    "An duba bayanan form ɗin. Ba a sayi airtime ba saboda ba a haɗa VTU API tukuna."
+  );
+}
+</script>
 </body>
-</html>
+    </html>
