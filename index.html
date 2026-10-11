@@ -857,5 +857,336 @@ const supabaseClient = window.supabase.createClient(
 
 console.log("Supabase connection client is ready.");
 </script>
+<!-- AREWA DATA PLUG: SIGN UP & LOGIN -->
+
+<style>
+.auth-container {
+    max-width: 420px;
+    margin: 30px auto;
+    padding: 25px;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+    font-family: Arial, sans-serif;
+    color: #222;
+}
+
+.auth-container h2 {
+    text-align: center;
+    color: #087443;
+}
+
+.auth-container p {
+    text-align: center;
+    color: #666;
+}
+
+.auth-container input {
+    width: 100%;
+    padding: 13px;
+    margin: 8px 0;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-size: 15px;
+}
+
+.auth-container button {
+    width: 100%;
+    padding: 13px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 8px;
+    background: #087443;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.auth-container .secondary {
+    background: #eeeeee;
+    color: #222;
+}
+
+.auth-message {
+    padding: 10px;
+    margin-top: 12px;
+    border-radius: 8px;
+    overflow-wrap: anywhere;
+    font-size: 14px;
+}
+
+#auth-dashboard {
+    display: none;
+}
+
+#auth-status {
+    text-align: center;
+    overflow-wrap: anywhere;
+}
+</style>
+
+<div class="auth-container" id="arewa-auth">
+    <h2>AREWA DATA PLUG</h2>
+    <p>EL-HASHIM INVESTMENT</p>
+
+    <div id="auth-forms">
+        <h3 id="auth-title">Create Account / Rijista</h3>
+
+        <form id="signup-form">
+            <input id="signup-name"
+                   type="text"
+                   placeholder="Full Name / Cikakken Suna"
+                   autocomplete="name"
+                   required>
+
+            <input id="signup-phone"
+                   type="tel"
+                   placeholder="Phone Number / Lambar Waya"
+                   autocomplete="tel"
+                   required>
+
+            <input id="signup-email"
+                   type="email"
+                   placeholder="Email Address"
+                   autocomplete="email"
+                   required>
+
+            <input id="signup-password"
+                   type="password"
+                   placeholder="Create Password"
+                   autocomplete="new-password"
+                   minlength="8"
+                   required>
+
+            <button type="submit">Create Account / Yi Rijista</button>
+        </form>
+
+        <form id="login-form" style="display:none;">
+            <input id="login-email"
+                   type="email"
+                   placeholder="Email Address"
+                   autocomplete="email"
+                   required>
+
+            <input id="login-password"
+                   type="password"
+                   placeholder="Password"
+                   autocomplete="current-password"
+                   required>
+
+            <button type="submit">Login / Shiga</button>
+        </form>
+
+        <button class="secondary" id="toggle-auth" type="button">
+            Already registered? Login
+        </button>
+
+        <button class="secondary" id="forgot-password" type="button">
+            Forgot Password?
+        </button>
+    </div>
+
+    <div id="auth-dashboard">
+        <h3>Ka shiga account ɗinka!</h3>
+        <p id="auth-user"></p>
+        <p>Wallet da sayen data za a haɗa su a mataki na gaba.</p>
+        <button id="logout-button" type="button">Logout / Fita</button>
+    </div>
+
+    <div id="auth-status" role="status" aria-live="polite"></div>
+</div>
+
+<script>
+(function () {
+    const client = window.supabaseClient;
+
+    const forms = document.getElementById("auth-forms");
+    const signupForm = document.getElementById("signup-form");
+    const loginForm = document.getElementById("login-form");
+    const title = document.getElementById("auth-title");
+    const toggle = document.getElementById("toggle-auth");
+    const status = document.getElementById("auth-status");
+    const dashboard = document.getElementById("auth-dashboard");
+    const userLabel = document.getElementById("auth-user");
+
+    if (!client) {
+        status.textContent =
+            "Supabase bai haɗu ba. A tabbatar an ƙirƙiri supabaseClient a tsohon code.";
+        status.className = "auth-message";
+        return;
+    }
+
+    function showMessage(message, success) {
+        status.textContent = message;
+        status.className = "auth-message";
+        status.style.background = success ? "#e4f7eb" : "#fff0f0";
+        status.style.color = success ? "#087443" : "#b42318";
+    }
+
+    function showDashboard(user) {
+        forms.style.display = "none";
+        dashboard.style.display = "block";
+        userLabel.textContent = "Email: " + (user.email || "Ba a nuna ba");
+    }
+
+    async function loadProfile(user, fullName, phone) {
+        if (!fullName && !phone) return;
+
+        const { error } = await client
+            .from("profiles")
+            .upsert({
+                id: user.id,
+                full_name: fullName || "",
+                phone: phone || ""
+            }, { onConflict: "id" });
+
+        if (error) {
+            console.error("Profile save error:", error.message);
+        }
+    }
+
+    signupForm.addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        const name = document.getElementById("signup-name").value.trim();
+        const phone = document.getElementById("signup-phone").value.trim();
+        const email = document.getElementById("signup-email").value.trim();
+        const password = document.getElementById("signup-password").value;
+
+        showMessage("Ana ƙirƙirar account...", true);
+
+        const { data, error } = await client.auth.signUp({
+            email: email,
+            password: password,
+            options: {
+                data: {
+                    full_name: name,
+                    phone: phone
+                }
+            }
+        });
+
+        if (error) {
+            showMessage(error.message, false);
+            return;
+        }
+
+        if (data.user) {
+            if (data.session) {
+                await loadProfile(data.user, name, phone);
+                showDashboard(data.user);
+                showMessage("An yi rijista cikin nasara!", true);
+            } else {
+                showMessage(
+                    "An karɓi rijistar. Duba email ɗinka don tabbatarwa, sannan ka yi login.",
+                    true
+                );
+                signupForm.reset();
+                loginForm.style.display = "block";
+                signupForm.style.display = "none";
+                title.textContent = "Login / Shiga";
+                toggle.textContent = "Sabon mai amfani? Yi rijista";
+            }
+        }
+    });
+
+    loginForm.addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        const email = document.getElementById("login-email").value.trim();
+        const password = document.getElementById("login-password").value;
+
+        showMessage("Ana shiga account...", true);
+
+        const { data, error } = await client.auth.signInWithPassword({
+            email: email,
+            password: password
+        });
+
+        if (error) {
+            showMessage(error.message, false);
+            return;
+        }
+
+        showDashboard(data.user);
+        showMessage("Ka shiga cikin nasara!", true);
+    });
+
+    toggle.addEventListener("click", function () {
+        const showingSignup = signupForm.style.display !== "none";
+
+        signupForm.style.display = showingSignup ? "none" : "block";
+        loginForm.style.display = showingSignup ? "block" : "none";
+
+        title.textContent = showingSignup
+            ? "Login / Shiga"
+            : "Create Account / Rijista";
+
+        toggle.textContent = showingSignup
+            ? "Sabon mai amfani? Yi rijista"
+            : "Already registered? Login";
+
+        status.textContent = "";
+    });
+
+    document.getElementById("forgot-password")
+        .addEventListener("click", async function () {
+            const email = document.getElementById("login-email").value.trim();
+
+            if (!email) {
+                showMessage(
+                    "Da farko ka saka email ɗinka a wajen Login.",
+                    false
+                );
+                return;
+            }
+
+            const { error } = await client.auth.resetPasswordForEmail(email);
+
+            if (error) {
+                showMessage(error.message, false);
+            } else {
+                showMessage(
+                    "Idan email ɗin ya dace da account, za a aiko da hanyar canza password.",
+                    true
+                );
+            }
+        });
+
+    document.getElementById("logout-button")
+        .addEventListener("click", async function () {
+            const { error } = await client.auth.signOut();
+
+            if (error) {
+                showMessage(error.message, false);
+                return;
+            }
+
+            dashboard.style.display = "none";
+            forms.style.display = "block";
+            loginForm.reset();
+            signupForm.reset();
+            signupForm.style.display = "block";
+            loginForm.style.display = "none";
+            title.textContent = "Create Account / Rijista";
+            toggle.textContent = "Already registered? Login";
+
+            showMessage("Ka fita daga account ɗinka.", true);
+        });
+
+    client.auth.getSession().then(function (result) {
+        if (result.data.session) {
+            showDashboard(result.data.session.user);
+        }
+    });
+
+    client.auth.onAuthStateChange(function (event, session) {
+        if (event === "SIGNED_IN" && session) {
+            showDashboard(session.user);
+        }
+    });
+})();
+</script>
 </body>
     </html>
