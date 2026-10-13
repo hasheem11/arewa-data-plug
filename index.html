@@ -4,705 +4,132 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#075b45">
-<title>Arewa Data Plug | EL-HASHIM INVESTMENT</title>
-
+<title>AREWA DATA PLUG</title>
 <style>
-:root {
-  --green: #075b45;
-  --green2: #087f5b;
-  --gold: #f5c451;
-  --bg: #f3f6f5;
-  --card: #ffffff;
-  --text: #172b25;
-  --muted: #718079;
-  --border: #e3eae6;
-}
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  font-family: Arial, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  min-height: 100vh;
-}
-
-button, input, select {
-  font: inherit;
-}
-
-button {
-  cursor: pointer;
-}
-
-button:focus-visible,
-input:focus-visible,
-select:focus-visible {
-  outline: 3px solid #f5c451;
-  outline-offset: 2px;
-}
-
-.app {
-  max-width: 480px;
-  margin: auto;
-  min-height: 100vh;
-  background: var(--bg);
-  padding-bottom: 85px;
-}
-
-.header {
-  background: var(--green);
-  color: white;
-  padding: 24px 20px 28px;
-  border-radius: 0 0 26px 26px;
-}
-
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.logo {
-  width: 46px;
-  height: 46px;
-  background: var(--gold);
-  color: var(--green);
-  display: grid;
-  place-items: center;
-  border-radius: 14px;
-  font-size: 24px;
-  font-weight: bold;
-}
-
-.brand h1 {
-  font-size: 18px;
-  line-height: 1.4;
-}
-
-.brand p {
-  font-size: 11px;
-  color: #d5e8df;
-  letter-spacing: 1px;
-}
-
-.greeting {
-  margin-top: 26px;
-}
-
-.greeting p {
-  color: #d5e8df;
-  font-size: 13px;
-}
-
-.greeting h2 {
-  font-size: 22px;
-  margin-top: 7px;
-}
-
-main {
-  padding: 18px;
-}
-
-.balance-card {
-  background: linear-gradient(135deg, #075b45, #098766);
-  color: white;
-  padding: 23px;
-  border-radius: 22px;
-  margin-top: -2px;
-  box-shadow: 0 8px 24px #075b4520;
-}
-
-.balance-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.balance-label {
-  color: #d5e8df;
-  font-size: 13px;
-}
-
-.balance {
-  font-size: 30px;
-  font-weight: bold;
-  margin-top: 12px;
-}
-
-.badge {
-  background: #ffffff20;
-  padding: 7px 10px;
-  border-radius: 20px;
-  font-size: 11px;
-}
-
-.balance-actions {
-  display: flex;
-  gap: 10px;
-  margin-top: 22px;
-}
-
-.balance-actions button {
-  flex: 1;
-  padding: 12px 8px;
-  border: 1px solid #ffffff55;
-  background: #ffffff12;
-  color: white;
-  border-radius: 12px;
-  font-weight: bold;
-}
-
-.balance-actions button:first-child {
-  background: var(--gold);
-  color: #20372d;
-  border-color: var(--gold);
-}
-
-.section-title {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin: 26px 0 14px;
-}
-
-.section-title h3 {
-  font-size: 17px;
-}
-
-.section-title button {
-  background: none;
-  border: 0;
-  color: var(--green2);
-  font-size: 13px;
-  font-weight: bold;
-}
-
-.services {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-}
-
-.service {
-  border: 1px solid var(--border);
-  border-radius: 17px;
-  background: var(--card);
-  padding: 17px 5px;
-  text-align: center;
-  color: var(--text);
-}
-
-.service .icon {
-  width: 47px;
-  height: 47px;
-  margin: 0 auto 10px;
-  display: grid;
-  place-items: center;
-  background: #e5f5ee;
-  border-radius: 15px;
-  font-size: 23px;
-}
-
-.service h4 {
-  font-size: 12px;
-}
-
-.service p {
-  color: var(--muted);
-  font-size: 10px;
-  margin-top: 5px;
-}
-
-.notice {
-  margin-top: 22px;
-  padding: 15px;
-  border-radius: 15px;
-  background: #fff6db;
-  color: #705516;
-  font-size: 12px;
-  line-height: 1.6;
-}
-
-.transaction-list {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 17px;
-  overflow: hidden;
-}
-
-.transaction {
-  padding: 15px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  border-bottom: 1px solid var(--border);
-}
-
-.transaction:last-child {
-  border-bottom: 0;
-}
-
-.tx-icon {
-  width: 42px;
-  height: 42px;
-  border-radius: 13px;
-  display: grid;
-  place-items: center;
-  background: #e5f5ee;
-  font-size: 20px;
-}
-
-.tx-info {
-  flex: 1;
-}
-
-.tx-info h4 {
-  font-size: 13px;
-}
-
-.tx-info p {
-  font-size: 11px;
-  color: var(--muted);
-  margin-top: 5px;
-}
-
-.tx-amount {
-  text-align: right;
-  font-size: 13px;
-  font-weight: bold;
-}
-
-.tx-amount small {
-  display: block;
-  color: #a36a00;
-  font-size: 10px;
-  margin-top: 5px;
-}
-
-.page {
-  display: none;
-}
-
-.page.active {
-  display: block;
-}
-
-.panel {
-  background: var(--card);
-  border: 1px solid var(--border);
-  padding: 20px;
-  border-radius: 19px;
-  margin-top: 5px;
-}
-
-.panel h2 {
-  font-size: 20px;
-  margin-bottom: 8px;
-}
-
-.panel > p {
-  color: var(--muted);
-  font-size: 13px;
-  line-height: 1.6;
-  margin-bottom: 20px;
-}
-
-.field {
-  margin-bottom: 16px;
-}
-
-.field label {
-  display: block;
-  font-size: 13px;
-  font-weight: bold;
-  margin-bottom: 8px;
-}
-
-.field input,
-.field select {
-  width: 100%;
-  padding: 14px;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  background: white;
-  color: var(--text);
-}
-
-.primary-btn {
-  width: 100%;
-  border: 0;
-  border-radius: 12px;
-  padding: 15px;
-  background: var(--green);
-  color: white;
-  font-weight: bold;
-  margin-top: 4px;
-}
-
-.secondary-btn {
-  width: 100%;
-  border: 1px solid var(--green);
-  border-radius: 12px;
-  padding: 13px;
-  background: white;
-  color: var(--green);
-  font-weight: bold;
-  margin-top: 12px;
-}
-
-.info-box {
-  padding: 14px;
-  border-radius: 12px;
-  background: #e5f5ee;
-  color: var(--green);
-  font-size: 12px;
-  line-height: 1.7;
-  margin-top: 15px;
-}
-
-.bottom-nav {
-  position: fixed;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
-  max-width: 480px;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  background: white;
-  border-top: 1px solid var(--border);
-  padding: 10px 5px calc(10px + env(safe-area-inset-bottom));
-  z-index: 10;
-}
-
-.nav-btn {
-  border: 0;
-  background: transparent;
-  color: var(--muted);
-  padding: 5px 0;
-  font-size: 11px;
-  display: grid;
-  gap: 5px;
-  justify-items: center;
-}
-
-.nav-btn span {
-  font-size: 21px;
-}
-
-.nav-btn.active {
-  color: var(--green);
-  font-weight: bold;
-}
-
-.empty {
-  text-align: center;
-  color: var(--muted);
-  padding: 28px 12px;
-  font-size: 13px;
-  line-height: 1.7;
-}
-
-.footer {
-  text-align: center;
-  padding: 25px 10px;
-  font-size: 10px;
-  color: var(--muted);
-}
-
-@media (max-width: 350px) {
-  main {
-    padding: 12px;
-  }
-
-  .services {
-    gap: 7px;
-  }
-
-  .service h4 {
-    font-size: 11px;
-  }
-
-  .balance {
-    font-size: 26px;
-  }
-}
+:root{--green:#075b45;--green2:#087f5b;--gold:#f5c451;--bg:#f3f6f5;--card:#fff;--text:#172b25;--muted:#718079;--border:#e3eae6}
+*{box-sizing:border-box;margin:0;padding:0}body{font-family:Arial,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}button,input,select{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.app{display:none;max-width:480px;margin:auto;min-height:100vh;background:var(--bg);padding-bottom:85px}.header{background:var(--green);color:white;padding:24px 20px 28px;border-radius:0 0 26px 26px}.brand{display:flex;align-items:center;gap:12px}.logo{width:46px;height:46px;background:var(--gold);color:var(--green);display:grid;place-items:center;border-radius:14px;font-size:24px;font-weight:bold}.brand h1{font-size:18px;line-height:1.4}.greeting{margin-top:26px}.greeting p{color:#d5e8df;font-size:13px}.greeting h2{font-size:22px;margin-top:7px}main{padding:18px}.balance-card{background:linear-gradient(135deg,#075b45,#098766);color:white;padding:23px;border-radius:22px;margin-top:-2px;box-shadow:0 8px 24px #075b4520}.balance-top{display:flex;justify-content:space-between;align-items:center}.balance-label{color:#d5e8df;font-size:13px}.balance{font-size:30px;font-weight:bold;margin-top:12px}.badge{background:#ffffff20;padding:7px 10px;border-radius:20px;font-size:11px}.balance-actions{display:flex;gap:10px;margin-top:22px}.balance-actions button{flex:1;padding:12px 8px;border:1px solid #ffffff55;background:#ffffff12;color:white;border-radius:12px;font-weight:bold}.balance-actions button:first-child{background:var(--gold);color:#20372d;border-color:var(--gold)}.section-title{display:flex;align-items:center;justify-content:space-between;margin:26px 0 14px}.section-title h3{font-size:17px}.section-title button{background:none;border:0;color:var(--green2);font-size:13px;font-weight:bold}.services{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.service{border:1px solid var(--border);border-radius:17px;background:var(--card);padding:17px 5px;text-align:center;color:var(--text)}.service .icon{width:47px;height:47px;margin:0 auto 10px;display:grid;place-items:center;background:#e5f5ee;border-radius:15px;font-size:23px}.service h4{font-size:12px}.service p{color:var(--muted);font-size:10px;margin-top:5px}.notice,.info-box{margin-top:15px;padding:14px;border-radius:12px;background:#fff6db;color:#705516;font-size:12px;line-height:1.7}.transaction-list,.panel{background:var(--card);border:1px solid var(--border);border-radius:17px;overflow:hidden}.panel{padding:20px;margin-top:5px}.panel h2{font-size:20px;margin-bottom:8px}.panel>p{color:var(--muted);font-size:13px;line-height:1.6;margin-bottom:20px}.page{display:none}.page.active{display:block}.field{margin-bottom:16px}.field label{display:block;font-size:13px;font-weight:bold;margin-bottom:8px}.field input,.field select{width:100%;padding:14px;border:1px solid var(--border);border-radius:12px;background:white;color:var(--text)}.primary-btn,.secondary-btn{width:100%;border:0;border-radius:12px;padding:15px;background:var(--green);color:white;font-weight:bold;margin-top:4px}.secondary-btn{border:1px solid var(--green);background:white;color:var(--green);margin-top:12px}.empty{text-align:center;color:var(--muted);padding:28px 12px;font-size:13px;line-height:1.7}.footer{text-align:center;padding:25px 10px;font-size:10px;color:var(--muted)}.bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;display:none;grid-template-columns:repeat(4,1fr);background:white;border-top:1px solid var(--border);padding:10px 5px calc(10px + env(safe-area-inset-bottom));z-index:10}.nav-btn{border:0;background:transparent;color:var(--muted);padding:5px 0;font-size:11px;display:grid;gap:5px;justify-items:center}.nav-btn span{font-size:21px}.nav-btn.active{color:var(--green);font-weight:bold}
+.auth-wrap{max-width:420px;margin:30px auto;padding:18px}.auth-card{background:#fff;padding:24px;border-radius:18px;box-shadow:0 4px 20px #0001}.auth-card h1{text-align:center;color:var(--green);font-size:22px;margin-bottom:8px}.auth-card>p{text-align:center;color:var(--muted);margin-bottom:20px;font-size:13px}.auth-card h2{font-size:18px;margin-bottom:14px}.auth-card input{width:100%;padding:13px;margin:7px 0;border:1px solid var(--border);border-radius:10px}.auth-card button{width:100%;padding:13px;margin-top:9px;border:0;border-radius:10px;background:var(--green);color:white;font-weight:bold}.auth-card button.secondary{background:#edf2ef;color:var(--text)}#auth-status{margin-top:12px;font-size:13px;line-height:1.5;overflow-wrap:anywhere}.top-actions{display:flex;justify-content:flex-end;margin-bottom:12px}.top-actions button{border:1px solid #ffffff80;background:#ffffff15;color:white;padding:8px 12px;border-radius:10px}
+@media(max-width:350px){main{padding:12px}.services{gap:7px}.service h4{font-size:11px}.balance{font-size:26px}}
 </style>
 </head>
-
 <body>
-<div class="app">
-
-  <header class="header">
-    <div class="brand">
-      <div class="logo">A</div>
-      <div>
-        <h1>AREWA DATA PLUG</h1>
-        <p>EL-HASHIM INVESTMENT</p>
-      </div>
-    </div>
-
-    <div class="greeting">
-      <p>Maraba da zuwa 👋</p>
-      <h2 id="welcomeName">Barka da zuwa!</h2>
-    </div>
-  </header>
-
-  <main>
-
-    <!-- HOME -->
-    <section id="homePage" class="page active">
-
-      <div class="balance-card">
-        <div class="balance-top">
-          <span class="balance-label">Wallet balance</span>
-          <span class="badge">NGN ₦</span>
-        </div>
-
-        <div class="balance">₦0.00</div>
-
-        <div class="balance-actions">
-          <button onclick="showPage('walletPage')">
-            + Fund wallet
-          </button>
-          <button onclick="showPage('transactionsPage')">
-            Transactions
-          </button>
-        </div>
-      </div>
-
-      <div class="section-title">
-        <h3>Our Services</h3>
-        <button onclick="showPage('servicesPage')">View all</button>
-      </div>
-
-      <div class="services">
-        <button class="service" onclick="openService('data')">
-          <div class="icon">📶</div>
-          <h4>Buy Data</h4>
-          <p>Data bundles</p>
-        </button>
-
-        <button class="service" onclick="openService('airtime')">
-          <div class="icon">📱</div>
-          <h4>Airtime</h4>
-          <p>Recharge</p>
-        </button>
-
-        <button class="service" onclick="showPage('walletPage')">
-          <div class="icon">💳</div>
-          <h4>Fund Wallet</h4>
-          <p>Add money</p>
-        </button>
-
-        <button class="service" onclick="showPage('transactionsPage')">
-          <div class="icon">🧾</div>
-          <h4>History</h4>
-          <p>Transactions</p>
-        </button>
-
-        <button class="service" onclick="showPage('profilePage')">
-          <div class="icon">👤</div>
-          <h4>My Account</h4>
-          <p>Profile</p>
-        </button>
-
-        <button class="service" onclick="showPage('supportPage')">
-          <div class="icon">💬</div>
-          <h4>Support</h4>
-          <p>Get help</p>
-        </button>
-      </div>
-
-      <div class="notice">
-        <strong>ℹ️ Bayani:</strong>
-        Wannan sabon tsarin frontend ne. Ba a haɗa wallet,
-        biyan kuɗi ko VTU provider ba tukuna. Kada ka saka kuɗi
-        ko ka dogara da wannan shafin wajen ciniki a yanzu.
-      </div>
-
-      <div class="section-title">
-        <h3>Recent Transactions</h3>
-        <button onclick="showPage('transactionsPage')">See all</button>
-      </div>
-
-      <div class="transaction-list">
-        <div class="empty">
-          🧾<br><br>
-          Babu transaction tukuna.<br>
-          Tarihin ciniki zai bayyana nan bayan an haɗa tsarin gaske.
-        </div>
-      </div>
-
-    </section>
-
-    <!-- SERVICES -->
-    <section id="servicesPage" class="page">
-      <div class="section-title">
-        <h3>All Services</h3>
-      </div>
-
-      <div class="services">
-        <button class="service" onclick="openService('data')">
-          <div class="icon">📶</div>
-          <h4>Buy Data</h4>
-        </button>
-
-        <button class="service" onclick="openService('airtime')">
-          <div class="icon">📱</div>
-          <h4>Airtime</h4>
-        </button>
-
-        <button class="service" onclick="showPage('walletPage')">
-          <div class="icon">💳</div>
-          <h4>Fund Wallet</h4>
-        </button>
-      </div>
-
-      <div id="serviceForm" class="panel" style="margin-top:20px">
-        <h2>Zaɓi sabis</h2>
-        <p>Zaɓi sayen data ko airtime daga sama.</p>
-      </div>
-    </section>
-
-    <!-- WALLET -->
-    <section id="walletPage" class="page">
-      <div class="panel">
-        <h2>My Wallet</h2>
-        <p>
-          Za a haɗa wannan wallet da tsarin biyan kuɗi
-          mai tabbatar da payment kafin a ƙara balance.
-        </p>
-
-        <div class="balance-card">
-          <div class="balance-label">Current balance</div>
-          <div class="balance">₦0.00</div>
-        </div>
-
-        <div class="info-box">
-          Wallet ɗin bai haɗu da payment gateway ba tukuna.
-          Kada ka tura kuɗi zuwa account da wannan demo ya nuna.
-        </div>
-
-        <button class="primary-btn" onclick="showMessage(
-          'Ba a haɗa payment gateway ba tukuna. Wannan demo ba ya karɓar kuɗi.'
-        )">
-          Fund Wallet — Setup Pending
-        </button>
-      </div>
-    </section>
-
-    <!-- TRANSACTIONS -->
-    <section id="transactionsPage" class="page">
-      <div class="panel">
-        <h2>Transaction History</h2>
-        <p>
-          Za a nuna transaction ID, adadi, lokaci da sakamakon
-          ciniki bayan an haɗa backend da provider.
-        </p>
-
-        <div class="empty">
-          🧾<br><br>
-          Babu transaction tukuna.<br>
-          Ba a ƙirƙiri ciniki na ƙarya a wannan tsarin ba.
-        </div>
-      </div>
-    </section>
-
-    <!-- PROFILE -->
-    <section id="profilePage" class="page">
-      <div class="panel">
-        <h2>My Account</h2>
-        <p>AREWA DATA PLUG — EL-HASHIM INVESTMENT</p>
-
-        <div class="field">
-          <label>Account system</label>
-          <input value="Registration system not connected" readonly>
-        </div>
-
-        <div class="field">
-          <label>Security</label>
-          <input value="Secure authentication pending" readonly>
-        </div>
-
-        <div class="info-box">
-          Ba a adana password ko bayanan sirri a wannan demo ba.
-          Za mu haɗa ingantaccen login da database a mataki na gaba.
-        </div>
-      </div>
-    </section>
-
-    <!-- SUPPORT -->
-    <section id="supportPage" class="page">
-      <div class="panel">
-        <h2>Customer Support</h2>
-        <p>
-          Za a saka ingantaccen hanyar tuntuɓar support
-          bayan an tabbatar da lambar waya ko adireshin kasuwanci.
-        </p>
-
-        <div class="info-box">
-          Support contact: Coming soon.<br>
-          Ba a saka lambar waya ta ƙarya ba.
-        </div>
-      </div>
-    </section>
-
-    <div class="footer">
-      AREWA DATA PLUG<br>
-      EL-HASHIM INVESTMENT<br>
-      Secure VTU platform — setup in progress.
-    </div>
-
-  </main>
-
-  <nav class="bottom-nav">
-    <button class="nav-btn active" data-page="homePage"
-      onclick="showPage('homePage')">
-      <span>🏠</span>Home
-    </button>
-
-    <button class="nav-btn" data-page="servicesPage"
-      onclick="showPage('servicesPage')">
-      <span>📶</span>Services
-    </button>
-
-    <button class="nav-btn" data-page="transactionsPage"
-      onclick="showPage('transactionsPage')">
-      <span>🧾</span>History
-    </button>
-
-    <button class="nav-btn" data-page="profilePage"
-      onclick="showPage('profilePage')">
-      <span>👤</span>Account
-    </button>
-  </nav>
-
+<!-- Login/Register is shown first. The app is hidden until Supabase confirms a session. -->
+<div class="auth-wrap" id="auth-wrap">
+  <div class="auth-card">
+    <h1>AREWA DATA PLUG</h1>
+    <p>Data, airtime, bills and digital services</p>
+    <h2 id="auth-title">Create Account / Rijista</h2>
+    <form id="signup-form">
+      <input id="signup-name" type="text" placeholder="Full Name / Cikakken Suna" autocomplete="name" required>
+      <input id="signup-phone" type="tel" placeholder="Phone Number / Lambar Waya" autocomplete="tel" required>
+      <input id="signup-email" type="email" placeholder="Email Address" autocomplete="email" required>
+      <input id="signup-password" type="password" placeholder="Create Password (at least 8 characters)" autocomplete="new-password" minlength="8" required>
+      <button type="submit">Create Account / Yi Rijista</button>
+    </form>
+    <form id="login-form" style="display:none">
+      <input id="login-email" type="email" placeholder="Email Address" autocomplete="email" required>
+      <input id="login-password" type="password" placeholder="Password" autocomplete="current-password" required>
+      <button type="submit">Login / Shiga</button>
+    </form>
+    <button class="secondary" id="toggle-auth" type="button">Already registered? Login</button>
+    <button class="secondary" id="forgot-password" type="button">Forgot Password?</button>
+    <div id="auth-status" role="status" aria-live="polite"></div>
+  </div>
 </div>
 
+<div class="app" id="app">
+<header class="header">
+  <div class="top-actions"><button id="logout-button" type="button">Logout / Fita</button></div>
+  <div class="brand"><div class="logo">A</div><div><h1>AREWA DATA PLUG</h1><p>DATA • AIRTIME • BILL PAYMENTS</p></div></div>
+  <div class="greeting"><p>Maraba da zuwa 👋</p><h2 id="welcomeName">Barka da zuwa!</h2></div>
+</header>
+<main>
+<section id="homePage" class="page active">
+  <div class="balance-card"><div class="balance-top"><span class="balance-label">Wallet balance</span><span class="badge">NGN ₦</span></div><div class="balance">₦0.00</div><div class="balance-actions"><button onclick="showPage('walletPage')">+ Fund wallet</button><button onclick="showPage('transactionsPage')">Transactions</button></div></div>
+  <div class="section-title"><h3>Our Services</h3><button onclick="showPage('servicesPage')">View all</button></div>
+  <div class="services">
+    <button class="service" onclick="openService('data')"><div class="icon">📶</div><h4>Buy Data</h4><p>Data bundles</p></button>
+    <button class="service" onclick="openService('airtime')"><div class="icon">📱</div><h4>Airtime</h4><p>Recharge</p></button>
+    <button class="service" onclick="showPage('walletPage')"><div class="icon">💳</div><h4>Fund Wallet</h4><p>Add money</p></button>
+    <button class="service" onclick="openService('electricity')"><div class="icon">💡</div><h4>Electricity</h4><p>Pay bill</p></button>
+    <button class="service" onclick="openService('tv')"><div class="icon">📺</div><h4>TV Subscription</h4><p>DStv / GOtv</p></button>
+    <button class="service" onclick="openService('water')"><div class="icon">🚰</div><h4>Water Bill</h4><p>Water services</p></button>
+    <button class="service" onclick="openService('internet')"><div class="icon">🌐</div><h4>Internet</h4><p>Broadband</p></button>
+    <button class="service" onclick="showPage('transactionsPage')"><div class="icon">🧾</div><h4>History</h4><p>Transactions</p></button>
+    <button class="service" onclick="showPage('profilePage')"><div class="icon">👤</div><h4>My Account</h4><p>Profile</p></button>
+  </div>
+  <div class="notice"><strong>Important:</strong> This is a frontend demo. Wallet funding, data, airtime and bill payments are not live until a verified payment gateway and service provider are connected. Do not send money through this demo.</div>
+  <div class="section-title"><h3>Recent Transactions</h3><button onclick="showPage('transactionsPage')">See all</button></div>
+  <div class="transaction-list"><div class="empty">🧾<br><br>No transactions yet.<br>Real transaction history will appear after backend integration.</div></div>
+</section>
+<section id="servicesPage" class="page"><div class="section-title"><h3>All Services</h3></div><div class="services">
+<button class="service" onclick="openService('data')"><div class="icon">📶</div><h4>Buy Data</h4></button><button class="service" onclick="openService('airtime')"><div class="icon">📱</div><h4>Airtime</h4></button><button class="service" onclick="openService('electricity')"><div class="icon">💡</div><h4>Electricity</h4></button><button class="service" onclick="openService('tv')"><div class="icon">📺</div><h4>TV Subscription</h4></button><button class="service" onclick="openService('water')"><div class="icon">🚰</div><h4>Water Bill</h4></button><button class="service" onclick="openService('internet')"><div class="icon">🌐</div><h4>Internet</h4></button><button class="service" onclick="showPage('walletPage')"><div class="icon">💳</div><h4>Fund Wallet</h4></button></div><div id="serviceForm" class="panel" style="margin-top:20px"><h2>Choose a service</h2><p>Select a service above to see the demo form.</p></div></section>
+<section id="walletPage" class="page"><div class="panel"><h2>My Wallet</h2><p>Wallet balance is a demo value only. A verified payment gateway and server-side confirmation are required before real funds can be added.</p><div class="balance-card"><div class="balance-label">Current balance</div><div class="balance">₦0.00</div></div><div class="info-box">Wallet funding is not connected. Do not transfer money based on this demo.</div><button class="primary-btn" onclick="showMessage('Payment gateway is not connected yet. No money has been collected.')">Fund Wallet — Setup Pending</button></div></section>
+<section id="transactionsPage" class="page"><div class="panel"><h2>Transaction History</h2><p>Real transaction IDs, amounts, timestamps and results will appear after secure backend integration.</p><div class="empty">🧾<br><br>No transactions yet. No fake transactions are created.</div></div></section>
+<section id="profilePage" class="page"><div class="panel"><h2>My Account</h2><p id="profile-email">Your account email will appear here.</p><div class="info-box">Authentication is handled by Supabase. Keep your password private.</div></div></section>
+<div class="footer">AREWA DATA PLUG<br>Services setup in progress.</div>
+</main>
+<nav class="bottom-nav" id="bottom-nav">
+<button class="nav-btn active" data-page="homePage" onclick="showPage('homePage')"><span>🏠</span>Home</button>
+<button class="nav-btn" data-page="servicesPage" onclick="showPage('servicesPage')"><span>📶</span>Services</button>
+<button class="nav-btn" data-page="transactionsPage" onclick="showPage('transactionsPage')"><span>🧾</span>History</button>
+<button class="nav-btn" data-page="profilePage" onclick="showPage('profilePage')"><span>👤</span>Account</button>
+</nav>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-"use strict";
+/*
+  AREWA DATA PLUG
+  Authentication uses Supabase.
+  Wallet, airtime, data and bill payments are demo-only.
+*/
+const SUPABASE_URL = "https://nosktmbevvkakvrywswe.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_-8wTTLMZOAWkgT4Kw5hY2A_fgDAxQn7";
 
-const pages = document.querySelectorAll(".page");
-const navButtons = document.querySelectorAll(".nav-btn");
+const authWrap = document.getElementById("auth-wrap");
+const app = document.getElementById("app");
+const bottomNav = document.getElementById("bottom-nav");
+const authStatus = document.getElementById("auth-status");
+const signupForm = document.getElementById("signup-form");
+const loginForm = document.getElementById("login-form");
+const authTitle = document.getElementById("auth-title");
+const toggleAuth = document.getElementById("toggle-auth");
+
+let supabaseClient = null;
+let loginMode = false;
+let currentUser = null;
+
+function setAuthStatus(message, isError = false) {
+  authStatus.textContent = message;
+  authStatus.style.color = isError ? "#b42318" : "#087f5b";
+}
+
+function showAuth() {
+  authWrap.style.display = "block";
+  app.style.display = "none";
+  bottomNav.style.display = "none";
+}
+
+function showApp(user) {
+  currentUser = user;
+  authWrap.style.display = "none";
+  app.style.display = "block";
+  bottomNav.style.display = "grid";
+
+  const name = user.user_metadata?.full_name || user.email || "Mai amfani";
+  document.getElementById("welcomeName").textContent = "Barka da zuwa, " + name;
+  document.getElementById("profile-email").textContent = user.email || "Babu email";
+  showPage("homePage");
+}
 
 function showPage(pageId) {
-  pages.forEach(page => {
+  document.querySelectorAll(".page").forEach(page => {
     page.classList.toggle("active", page.id === pageId);
   });
-
-  navButtons.forEach(button => {
-    button.classList.toggle(
-      "active",
-      button.dataset.page === pageId
-    );
+  document.querySelectorAll(".nav-btn").forEach(button => {
+    button.classList.toggle("active", button.dataset.page === pageId);
   });
-
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
@@ -710,663 +137,248 @@ function showMessage(message) {
   alert(message);
 }
 
-function openService(type) {
+function setAuthMode(useLogin) {
+  loginMode = useLogin;
+  signupForm.style.display = useLogin ? "none" : "block";
+  loginForm.style.display = useLogin ? "block" : "none";
+  authTitle.textContent = useLogin ? "Login / Shiga" : "Create Account / Rijista";
+  toggleAuth.textContent = useLogin
+    ? "New here? Create Account"
+    : "Already registered? Login";
+  setAuthStatus("");
+}
+
+toggleAuth.addEventListener("click", () => setAuthMode(!loginMode));
+
+signupForm.addEventListener("submit", async event => {
+  event.preventDefault();
+
+  if (!supabaseClient) {
+    setAuthStatus("Supabase bai haɗu ba. Duba publishable key ɗinka.", true);
+    return;
+  }
+
+  const fullName = document.getElementById("signup-name").value.trim();
+  const phone = document.getElementById("signup-phone").value.trim();
+  const email = document.getElementById("signup-email").value.trim();
+  const password = document.getElementById("signup-password").value;
+
+  if (!fullName || !phone || !email || password.length < 8) {
+    setAuthStatus("Cika dukkan bayanan da ake buƙata. Password ya zama aƙalla haruffa 8.", true);
+    return;
+  }
+
+  setAuthStatus("Ana ƙirƙirar account...");
+  const { data, error } = await supabaseClient.auth.signUp({
+    email,
+    password,
+    options: {
+      data: {
+        full_name: fullName,
+        phone: phone
+      }
+    }
+  });
+
+  if (error) {
+    setAuthStatus(error.message, true);
+    return;
+  }
+
+  if (data.session) {
+    setAuthStatus("An yi rijista cikin nasara.");
+    showApp(data.session.user);
+  } else {
+    setAuthStatus("An ƙirƙiri account. Duba email ɗinka don tabbatarwa, sannan ka shiga.");
+    setAuthMode(true);
+  }
+});
+
+loginForm.addEventListener("submit", async event => {
+  event.preventDefault();
+
+  if (!supabaseClient) {
+    setAuthStatus("Supabase bai haɗu ba. Duba publishable key ɗinka.", true);
+    return;
+  }
+
+  const email = document.getElementById("login-email").value.trim();
+  const password = document.getElementById("login-password").value;
+
+  setAuthStatus("Ana shiga...");
+  const { data, error } = await supabaseClient.auth.signInWithPassword({
+    email,
+    password
+  });
+
+  if (error) {
+    setAuthStatus(error.message, true);
+    return;
+  }
+
+  if (data.session) showApp(data.session.user);
+});
+
+document.getElementById("forgot-password").addEventListener("click", async () => {
+  if (!supabaseClient) {
+    setAuthStatus("Supabase bai haɗu ba.", true);
+    return;
+  }
+
+  const email = loginMode
+    ? document.getElementById("login-email").value.trim()
+    : document.getElementById("signup-email").value.trim();
+
+  if (!email) {
+    setAuthStatus("Da fatan ka fara rubuta email ɗinka a akwatin email.", true);
+    return;
+  }
+
+  const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
+    redirectTo: window.location.origin + window.location.pathname
+  });
+
+  if (error) {
+    setAuthStatus(error.message, true);
+  } else {
+    setAuthStatus("An aika umarnin canza password idan email ɗin yana cikin tsarin. Duba inbox ɗinka.");
+  }
+});
+
+document.getElementById("logout-button").addEventListener("click", async () => {
+  if (!supabaseClient) return;
+  const { error } = await supabaseClient.auth.signOut();
+
+  if (error) {
+    showMessage("An samu matsala wajen fita: " + error.message);
+    return;
+  }
+
+  currentUser = null;
+  showAuth();
+  setAuthMode(true);
+  setAuthStatus("Ka fita daga account ɗinka.");
+});
+
+function openService(service) {
   showPage("servicesPage");
 
-  const form = document.getElementById("serviceForm");
+  const titles = {
+    data: "Buy Data / Siyan Data",
+    airtime: "Buy Airtime / Siyan Airtime",
+    electricity: "Electricity Bill / Biyan Wuta",
+    tv: "TV Subscription / Biyan TV",
+    water: "Water Bill / Biyan Ruwa",
+    internet: "Internet Subscription / Biyan Intanet"
+  };
 
-  if (type === "data") {
-    form.innerHTML = `
-      <h2>Buy Data</h2>
-      <p>Data bundles will be loaded from a real VTU provider later.</p>
+  const descriptions = {
+    data: "Zaɓi network da bundle ɗin da kake so.",
+    airtime: "Zaɓi network sannan ka shigar da lambar waya da adadi.",
+    electricity: "Shigar da bayanan kamfanin wutar lantarki.",
+    tv: "Zaɓi kamfanin TV ɗinka da smart-card number.",
+    water: "Shigar da bayanan asusun ruwa.",
+    internet: "Shigar da bayanan sabis ɗin intanet."
+  };
 
-      <div class="field">
-        <label>Network</label>
-        <select id="dataNetwork">
-          <option value="">Select network</option>
-          <option value="MTN">MTN</option>
-          <option value="Airtel">Airtel</option>
-          <option value="Glo">Glo</option>
-          <option value="9mobile">9mobile</option>
-        </select>
-      </div>
+  let fields = "";
 
-      <div class="field">
-        <label>Phone number</label>
-        <input id="dataPhone" type="tel"
-          inputmode="numeric" maxlength="11"
-          placeholder="08012345678">
-      </div>
-
-      <div class="field">
-        <label>Data plan</label>
-        <select id="dataPlan">
-          <option value="">Select data plan</option>
-        </select>
-      </div>
-
-      <div class="info-box">
-        Plans and prices are not connected to a provider yet.
-        No purchase will be made.
-      </div>
-
-      <button class="primary-btn" onclick="requestData()">
-        Continue — Setup Pending
-      </button>
-    `;
-
-    document.getElementById("dataNetwork")
-      .addEventListener("change", updatePlans);
+  if (service === "data") {
+    fields = `
+      <div class="field"><label>Network</label>
+      <select id="service-network" required>
+        <option value="">Zaɓi network</option>
+        <option>MTN</option><option>Airtel</option>
+        <option>Glo</option><option>9mobile</option>
+      </select></div>
+      <div class="field"><label>Phone Number</label>
+      <input id="service-phone" type="tel" placeholder="08012345678" required></div>
+      <div class="field"><label>Data Bundle</label>
+      <select id="service-package" required>
+        <option value="">Zaɓi bundle</option>
+        <option>500MB</option><option>1GB</option>
+        <option>2GB</option><option>3GB</option>
+        <option>5GB</option><option>10GB</option>
+      </select></div>`;
+  } else if (service === "airtime") {
+    fields = `
+      <div class="field"><label>Network</label>
+      <select id="service-network" required>
+        <option value="">Zaɓi network</option>
+        <option>MTN</option><option>Airtel</option>
+        <option>Glo</option><option>9mobile</option>
+      </select></div>
+      <div class="field"><label>Phone Number</label>
+      <input id="service-phone" type="tel" placeholder="08012345678" required></div>
+      <div class="field"><label>Amount (₦)</label>
+      <input id="service-amount" type="number" min="50" placeholder="100" required></div>`;
+  } else {
+    const labels = {
+      electricity: ["Electricity Provider", "Meter Number", "Amount (₦)"],
+      tv: ["TV Provider", "Smart Card / IUC Number", "Amount (₦)"],
+      water: ["Water Provider", "Customer Account Number", "Amount (₦)"],
+      internet: ["Internet Provider", "Customer / Account Number", "Amount (₦)"]
+    };
+    const item = labels[service];
+    fields = `
+      <div class="field"><label>${item[0]}</label>
+      <input id="service-provider" type="text" placeholder="${item[0]}" required></div>
+      <div class="field"><label>${item[1]}</label>
+      <input id="service-account" type="text" placeholder="${item[1]}" required></div>
+      <div class="field"><label>${item[2]}</label>
+      <input id="service-amount" type="number" min="1" placeholder="Amount in Naira" required></div>`;
   }
 
-  if (type === "airtime") {
-    form.innerHTML = `
-      <h2>Buy Airtime</h2>
-      <p>Za a haɗa wannan sabis da VTU API daga baya.</p>
+  document.getElementById("serviceForm").innerHTML = `
+    <h2>${titles[service]}</h2>
+    <p>${descriptions[service]}</p>
+    <form id="demo-service-form">
+      ${fields}
+      <div class="info-box">Demo only: ba a haɗa wannan sabis da mai samar da shi ba. Ba za a cire kuɗi ko yin biyan kuɗi na gaske ba.</div>
+      <button class="primary-btn" type="submit">Continue — Demo Only</button>
+    </form>`;
 
-      <div class="field">
-        <label>Network</label>
-        <select id="airNetwork">
-          <option value="">Select network</option>
-          <option>MTN</option>
-          <option>Airtel</option>
-          <option>Glo</option>
-          <option>9mobile</option>
-        </select>
-      </div>
-
-      <div class="field">
-        <label>Phone number</label>
-        <input id="airPhone" type="tel"
-          inputmode="numeric" maxlength="11"
-          placeholder="08012345678">
-      </div>
-
-      <div class="field">
-        <label>Amount (₦)</label>
-        <input id="airAmount" type="number"
-          min="50" max="50000" placeholder="1000">
-      </div>
-
-      <div class="info-box">
-        Wannan form ɗin demo ne. Ba zai aika airtime ba.
-      </div>
-
-      <button class="primary-btn" onclick="requestAirtime()">
-        Continue — Setup Pending
-      </button>
-    `;
-  }
-
-  form.scrollIntoView({ behavior: "smooth", block: "start" });
+  document.getElementById("demo-service-form").addEventListener("submit", event => {
+    event.preventDefault();
+    showMessage("Wannan demo ne kawai. Ba a yi transaction ba kuma ba a cire kuɗi. Sai an haɗa ingantaccen backend kafin amfani na gaske.");
+  });
 }
 
-function updatePlans() {
-  const network = document.getElementById("dataNetwork");
-  const plan = document.getElementById("dataPlan");
+async function initializeApp() {
+  showAuth();
 
-  if (!network || !plan) return;
-
-  plan.innerHTML = '<option value="">Plans not connected yet</option>';
-}
-
-function requestData() {
-  const network = document.getElementById("dataNetwork").value;
-  const phone = document.getElementById("dataPhone").value.trim();
-
-  if (!network || !/^0\d{10}$/.test(phone)) {
-    alert("Ka zaɓi network kuma ka shigar da lambar waya mai lamba 11.");
+  if (SUPABASE_ANON_KEY === "PASTE_YOUR_EXISTING_SUPABASE_PUBLISHABLE_KEY_HERE") {
+    setAuthStatus("Kafin login ya yi aiki, maye gurbin PASTE_YOUR_EXISTING_SUPABASE_PUBLISHABLE_KEY_HERE da publishable key ɗinka na Supabase.", true);
     return;
   }
 
-  alert(
-    "An duba bayanan form ɗin. Ba a aika data ba saboda ba a haɗa VTU API tukuna."
-  );
-}
+  try {
+    const { createClient } = window.supabase;
+    supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-function requestAirtime() {
-  const network = document.getElementById("airNetwork").value;
-  const phone = document.getElementById("airPhone").value.trim();
-  const amount = Number(document.getElementById("airAmount").value);
+    const { data, error } = await supabaseClient.auth.getSession();
+    if (error) throw error;
 
-  if (!network || !/^0\d{10}$/.test(phone)) {
-    alert("Ka zaɓi network kuma ka shigar da lambar waya mai lamba 11.");
-    return;
+    if (data.session) {
+      showApp(data.session.user);
+    } else {
+      showAuth();
+    }
+
+    supabaseClient.auth.onAuthStateChange((_event, session) => {
+      if (session) {
+        showApp(session.user);
+      } else {
+        currentUser = null;
+        showAuth();
+      }
+    });
+  } catch (error) {
+    setAuthStatus("An kasa haɗuwa da Supabase: " + error.message, true);
   }
-
-  if (!Number.isFinite(amount) || amount < 50 || amount > 50000) {
-    alert("Shigar da adadin kuɗi tsakanin ₦50 da ₦50,000.");
-    return;
-  }
-
-  alert(
-    "An duba bayanan form ɗin. Ba a sayi airtime ba saboda ba a haɗa VTU API tukuna."
-  );
-}
-</script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<script>
-const SUPABASE_URL = "https://nosktmbevvkakvrywswe.supabase.co";
-const SUPABASE_ANON_KEY = "sb_publishable_-8wTTLMZOAWkgT4Kw5hY2A_fgDAxQn7";
-
-const supabaseClient = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_ANON_KEY
-);
-window.supabaseClient = supabaseClient;
-console.log("Supabase connection client is ready.");
-</script>
-<!-- AREWA DATA PLUG: SIGN UP & LOGIN -->
-
-<style>
-.auth-container {
-    max-width: 420px;
-    margin: 30px auto;
-    padding: 25px;
-    background: #ffffff;
-    border-radius: 16px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.12);
-    font-family: Arial, sans-serif;
-    color: #222;
 }
 
-.auth-container h2 {
-    text-align: center;
-    color: #087443;
-}
-
-.auth-container p {
-    text-align: center;
-    color: #666;
-}
-
-.auth-container input {
-    width: 100%;
-    padding: 13px;
-    margin: 8px 0;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-sizing: border-box;
-    font-size: 15px;
-}
-
-.auth-container button {
-    width: 100%;
-    padding: 13px;
-    margin-top: 10px;
-    border: none;
-    border-radius: 8px;
-    background: #087443;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-.auth-container .secondary {
-    background: #eeeeee;
-    color: #222;
-}
-
-.auth-message {
-    padding: 10px;
-    margin-top: 12px;
-    border-radius: 8px;
-    overflow-wrap: anywhere;
-    font-size: 14px;
-}
-
-#auth-dashboard {
-    display: none;
-}
-
-#auth-status {
-    text-align: center;
-    overflow-wrap: anywhere;
-}
-</style>
-
-<div class="auth-container" id="arewa-auth">
-    <h2>AREWA DATA PLUG</h2>
-    <p>EL-HASHIM INVESTMENT</p>
-
-    <div id="auth-forms">
-        <h3 id="auth-title">Create Account / Rijista</h3>
-
-        <form id="signup-form">
-            <input id="signup-name"
-                   type="text"
-                   placeholder="Full Name / Cikakken Suna"
-                   autocomplete="name"
-                   required>
-
-            <input id="signup-phone"
-                   type="tel"
-                   placeholder="Phone Number / Lambar Waya"
-                   autocomplete="tel"
-                   required>
-
-            <input id="signup-email"
-                   type="email"
-                   placeholder="Email Address"
-                   autocomplete="email"
-                   required>
-
-            <input id="signup-password"
-                   type="password"
-                   placeholder="Create Password"
-                   autocomplete="new-password"
-                   minlength="8"
-                   required>
-
-            <button type="submit">Create Account / Yi Rijista</button>
-        </form>
-
-        <form id="login-form" style="display:none;">
-            <input id="login-email"
-                   type="email"
-                   placeholder="Email Address"
-                   autocomplete="email"
-                   required>
-
-            <input id="login-password"
-                   type="password"
-                   placeholder="Password"
-                   autocomplete="current-password"
-                   required>
-
-            <button type="submit">Login / Shiga</button>
-        </form>
-
-        <button class="secondary" id="toggle-auth" type="button">
-            Already registered? Login
-        </button>
-
-        <button class="secondary" id="forgot-password" type="button">
-            Forgot Password?
-        </button>
-    </div>
-
-    <div id="auth-dashboard">
-        <h3>Ka shiga account ɗinka!</h3>
-        <p id="auth-user"></p>
-        <p>Wallet da sayen data za a haɗa su a mataki na gaba.</p>
-        <button id="logout-button" type="button">Logout / Fita</button>
-    </div>
-
-    <div id="auth-status" role="status" aria-live="polite"></div>
-</div>
-
-<script>
-(function () {
-    const client = window.supabaseClient;
-
-    const forms = document.getElementById("auth-forms");
-    const signupForm = document.getElementById("signup-form");
-    const loginForm = document.getElementById("login-form");
-    const title = document.getElementById("auth-title");
-    const toggle = document.getElementById("toggle-auth");
-    const status = document.getElementById("auth-status");
-    const dashboard = document.getElementById("auth-dashboard");
-    const userLabel = document.getElementById("auth-user");
-
-    if (!client) {
-        status.textContent =
-            "Supabase bai haɗu ba. A tabbatar an ƙirƙiri supabaseClient a tsohon code.";
-        status.className = "auth-message";
-        return;
-    }
-
-    function showMessage(message, success) {
-        status.textContent = message;
-        status.className = "auth-message";
-        status.style.background = success ? "#e4f7eb" : "#fff0f0";
-        status.style.color = success ? "#087443" : "#b42318";
-    }
-
-    function showDashboard(user) {
-        forms.style.display = "none";
-        dashboard.style.display = "block";
-        userLabel.textContent = "Email: " + (user.email || "Ba a nuna ba");
-    }
-
-    async function loadProfile(user, fullName, phone) {
-        if (!fullName && !phone) return;
-
-        const { error } = await client
-            .from("profiles")
-            .upsert({
-                id: user.id,
-                full_name: fullName || "",
-                phone: phone || ""
-            }, { onConflict: "id" });
-
-        if (error) {
-            console.error("Profile save error:", error.message);
-        }
-    }
-
-    signupForm.addEventListener("submit", async function (event) {
-        event.preventDefault();
-
-        const name = document.getElementById("signup-name").value.trim();
-        const phone = document.getElementById("signup-phone").value.trim();
-        const email = document.getElementById("signup-email").value.trim();
-        const password = document.getElementById("signup-password").value;
-
-        showMessage("Ana ƙirƙirar account...", true);
-
-        const { data, error } = await client.auth.signUp({
-            email: email,
-            password: password,
-            options: {
-                data: {
-                    full_name: name,
-                    phone: phone
-                }
-            }
-        });
-
-        if (error) {
-            showMessage(error.message, false);
-            return;
-        }
-
-        if (data.user) {
-            if (data.session) {
-                await loadProfile(data.user, name, phone);
-                showDashboard(data.user);
-                showMessage("An yi rijista cikin nasara!", true);
-            } else {
-                showMessage(
-                    "An karɓi rijistar. Duba email ɗinka don tabbatarwa, sannan ka yi login.",
-                    true
-                );
-                signupForm.reset();
-                loginForm.style.display = "block";
-                signupForm.style.display = "none";
-                title.textContent = "Login / Shiga";
-                toggle.textContent = "Sabon mai amfani? Yi rijista";
-            }
-        }
-    });
-
-    loginForm.addEventListener("submit", async function (event) {
-        event.preventDefault();
-
-        const email = document.getElementById("login-email").value.trim();
-        const password = document.getElementById("login-password").value;
-
-        showMessage("Ana shiga account...", true);
-
-        const { data, error } = await client.auth.signInWithPassword({
-            email: email,
-            password: password
-        });
-
-        if (error) {
-            showMessage(error.message, false);
-            return;
-        }
-
-        showDashboard(data.user);
-        showMessage("Ka shiga cikin nasara!", true);
-    });
-
-    toggle.addEventListener("click", function () {
-        const showingSignup = signupForm.style.display !== "none";
-
-        signupForm.style.display = showingSignup ? "none" : "block";
-        loginForm.style.display = showingSignup ? "block" : "none";
-
-        title.textContent = showingSignup
-            ? "Login / Shiga"
-            : "Create Account / Rijista";
-
-        toggle.textContent = showingSignup
-            ? "Sabon mai amfani? Yi rijista"
-            : "Already registered? Login";
-
-        status.textContent = "";
-    });
-
-    document.getElementById("forgot-password")
-        .addEventListener("click", async function () {
-            const email = document.getElementById("login-email").value.trim();
-
-            if (!email) {
-                showMessage(
-                    "Da farko ka saka email ɗinka a wajen Login.",
-                    false
-                );
-                return;
-            }
-
-            const { error } = await client.auth.resetPasswordForEmail(email);
-
-            if (error) {
-                showMessage(error.message, false);
-            } else {
-                showMessage(
-                    "Idan email ɗin ya dace da account, za a aiko da hanyar canza password.",
-                    true
-                );
-            }
-        });
-
-    document.getElementById("logout-button")
-        .addEventListener("click", async function () {
-            const { error } = await client.auth.signOut();
-
-            if (error) {
-                showMessage(error.message, false);
-                return;
-            }
-
-            dashboard.style.display = "none";
-            forms.style.display = "block";
-            loginForm.reset();
-            signupForm.reset();
-            signupForm.style.display = "block";
-            loginForm.style.display = "none";
-            title.textContent = "Create Account / Rijista";
-            toggle.textContent = "Already registered? Login";
-
-            showMessage("Ka fita daga account ɗinka.", true);
-        });
-
-    client.auth.getSession().then(function (result) {
-        if (result.data.session) {
-            showDashboard(result.data.session.user);
-        }
-    });
-
-    client.auth.onAuthStateChange(function (event, session) {
-        if (event === "SIGNED_IN" && session) {
-            showDashboard(session.user);
-        }
-    });
-})();
-</script>
-<style>
-#arewa-auth {
-    max-width: 420px;
-    margin: 30px auto;
-    padding: 24px;
-    background: white;
-    color: #222;
-    border-radius: 16px;
-    box-shadow: 0 4px 20px #0002;
-    font-family: Arial, sans-serif;
-}
-#arewa-auth input,
-#arewa-auth button {
-    width: 100%;
-    box-sizing: border-box;
-    padding: 13px;
-    margin: 8px 0;
-    border-radius: 8px;
-    font-size: 16px;
-}
-#arewa-auth input {
-    border: 1px solid #ddd;
-}
-#arewa-auth button {
-    background: #087443;
-    color: white;
-    border: none;
-}
-#arewa-auth .secondary {
-    background: #eee;
-    color: #222;
-}
-#arewa-auth-message {
-    overflow-wrap: anywhere;
-}
-</style>
-
-<div id="arewa-auth" style="display:none;">
-    <h2 style="text-align:center;color:#087443;">
-        AREWA DATA PLUG
-    </h2>
-    <p style="text-align:center;">EL-HASHIM INVESTMENT</p>
-
-    <div id="arewa-auth-forms">
-        <h3 id="arewa-auth-title">Create Account / Rijista</h3>
-
-        <form id="arewa-signup">
-            <input id="arewa-name" placeholder="Cikakken suna" required>
-            <input id="arewa-phone" type="tel" placeholder="Lambar waya" required>
-            <input id="arewa-email" type="email" placeholder="Email" required>
-            <input id="arewa-password" type="password"
-                   placeholder="Password (aƙalla haruffa 8)"
-                   minlength="8" required>
-            <button type="submit">Create Account</button>
-        </form>
-
-        <form id="arewa-login" style="display:none;">
-            <input id="arewa-login-email" type="email"
-                   placeholder="Email" required>
-            <input id="arewa-login-password" type="password"
-                   placeholder="Password" required>
-            <button type="submit">Login / Shiga</button>
-        </form>
-
-        <button type="button" class="secondary" id="arewa-toggle">
-            Ina da account tuni? Login
-        </button>
-    </div>
-
-    <div id="arewa-auth-message" role="status"></div>
-</div>
-
-<script>
-(function () {
-    const box = document.getElementById("arewa-auth");
-    const forms = document.getElementById("arewa-auth-forms");
-    const signup = document.getElementById("arewa-signup");
-    const login = document.getElementById("arewa-login");
-    const message = document.getElementById("arewa-auth-message");
-    const title = document.getElementById("arewa-auth-title");
-    const toggle = document.getElementById("arewa-toggle");
-
-    function showMessage(text) {
-        message.textContent = text;
-    }
-
-    function showLoginPage() {
-        box.style.display = "block";
-        forms.style.display = "block";
-        signup.style.display = "block";
-        login.style.display = "none";
-    }
-
-    function showApp() {
-        box.style.display = "none";
-        document.body.style.visibility = "visible";
-    }
-
-    document.body.style.visibility = "hidden";
-
-    const client = window.supabaseClient;
-
-    if (!client) {
-        document.body.style.visibility = "visible";
-        box.style.display = "block";
-        showMessage("Ba a sami Supabase client ba. Ana buƙatar haɗa shi daidai.");
-        return;
-    }
-
-    toggle.addEventListener("click", function () {
-        const signupVisible = signup.style.display !== "none";
-        signup.style.display = signupVisible ? "none" : "block";
-        login.style.display = signupVisible ? "block" : "none";
-        title.textContent = signupVisible ? "Login / Shiga" : "Create Account / Rijista";
-        toggle.textContent = signupVisible
-            ? "Sabon mai amfani? Yi rijista"
-            : "Ina da account tuni? Login";
-        showMessage("");
-    });
-
-    signup.addEventListener("submit", async function (e) {
-        e.preventDefault();
-        showMessage("Ana ƙirƙirar account...");
-
-        const name = document.getElementById("arewa-name").value.trim();
-        const phone = document.getElementById("arewa-phone").value.trim();
-        const email = document.getElementById("arewa-email").value.trim();
-        const password = document.getElementById("arewa-password").value;
-
-        const { data, error } = await client.auth.signUp({
-            email,
-            password,
-            options: { data: { full_name: name, phone } }
-        });
-
-        if (error) {
-            showMessage(error.message);
-            return;
-        }
-
-        if (data.session) {
-            showApp();
-        } else {
-            showMessage("An karɓi rijista. Duba email don tabbatarwa, sannan ka yi Login.");
-            signup.style.display = "none";
-            login.style.display = "block";
-            title.textContent = "Login / Shiga";
-        }
-    });
-
-    login.addEventListener("submit", async function (e) {
-        e.preventDefault();
-        showMessage("Ana shiga account...");
-
-        const email = document.getElementById("arewa-login-email").value.trim();
-        const password = document.getElementById("arewa-login-password").value;
-
-        const { error } = await client.auth.signInWithPassword({
-            email,
-            password
-        });
-
-        if (error) {
-            showMessage(error.message);
-            return;
-        }
-
-        location.reload();
-    });
-
-    client.auth.getSession().then(function ({ data, error }) {
-        if (!error && data.session) {
-            showApp();
-        } else {
-            document.body.style.visibility = "visible";
-            showLoginPage();
-        }
-    });
-})();
+initializeApp();
 </script>
 </body>
-    </html>
+</html>
