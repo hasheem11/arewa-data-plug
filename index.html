@@ -380,5 +380,19 @@ async function initializeApp() {
 
 initializeApp();
 </script>
+<script>
+async function fundWallet() {
+  const amount = prompt("Enter amount in Naira (minimum ₦100):");
+  if (!amount) return;
+
+  const naira = Number(amount);
+  if (!Number.isFinite(naira) || naira < 100) {
+    alert("Enter a valid amount of at least ₦100.");
+    return;
+  }
+
+  alert("Payment setup is not complete yet. Please do not make a payment until the secure Paystack initialization and wallet-crediting steps are connected.");
+}
+</script>
 </body>
 </html>
