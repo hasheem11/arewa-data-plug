@@ -381,18 +381,54 @@ async function initializeApp() {
 initializeApp();
 </script>
 <script>
+  
 async function fundWallet() {
   const amount = prompt("Enter amount in Naira (minimum ₦100):");
   if (!amount) return;
 
   const naira = Number(amount);
-  if (!Number.isFinite(naira) || naira < 100) {
-    alert("Enter a valid amount of at least ₦100.");
+
+  if (!Number.isSafeInteger(naira) || naira < 100 || naira > 500000) {
+    alert("Enter a whole amount between ₦100 and ₦500,000.");
     return;
   }
 
-  alert("Payment setup is not complete yet. Please do not make a payment until the secure Paystack initialization and wallet-crediting steps are connected.");
+  const { data: { session }, error: sessionError } =
+    await supabase.auth.getSession();
+
+  if (sessionError || !session) {
+    alert("Please log in first.");
+    return;
+  }
+
+  try {
+    const response = await fetch(
+      "https://nosktmbevvkakvrywswe.supabase.co/functions/v1/initialize-payment",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${session.access_token}`,
+          "apikey": SUPABASE_ANON_KEY
+        },
+        body: JSON.stringify({ amount: naira })
+      }
+    );
+
+    const result = await response.json();
+
+    if (!response.ok || !result.authorization_url) {
+      alert(result.error || "Could not start payment. Please try again.");
+      return;
+    }
+
+    window.location.href = result.authorization_url;
+  } catch (error) {
+    alert("Connection problem. Please try again.");
+    console.error(error);
+  }
 }
+
 </script>
 </body>
 </html>
