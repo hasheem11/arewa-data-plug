@@ -46,12 +46,12 @@
 </header>
 <main>
 <section id="homePage" class="page active">
-  <div class="balance-card"><div class="balance-top"><span class="balance-label">Wallet balance</span><span class="badge">NGN ₦</span></div><div class="balance">₦0.00</div><div class="balance-actions"><button onclick="showPage('walletPage')">+ Fund wallet</button><button onclick="showPage('transactionsPage')">Transactions</button></div></div>
+  <div class="balance-card"><div class="balance-top"><span class="balance-label">Wallet balance</span><span class="badge">NGN ₦</span></div><div class="balance" id="home-balance">₦0.00</div><div class="balance-actions"><button onclick="showPage('walletPage')">+ Fund wallet</button><button onclick="showPage('transactionsPage')">Transactions</button></div></div>
   <div class="section-title"><h3>Our Services</h3><button onclick="showPage('servicesPage')">View all</button></div>
   <div class="services">
     <button class="service" onclick="openService('data')"><div class="icon">📶</div><h4>Buy Data</h4><p>Data bundles</p></button>
     <button class="service" onclick="openService('airtime')"><div class="icon">📱</div><h4>Airtime</h4><p>Recharge</p></button>
-    <button class="service" onclick="fundWallet()"><div class="icon">💳</div><h4>Fund Wallet</h4><p>Add money</p></button>
+    <button class="service" onclick="showPage('walletPage')"><div class="icon">💳</div><h4>Fund Wallet</h4><p>Add money</p></button>
     <button class="service" onclick="openService('electricity')"><div class="icon">💡</div><h4>Electricity</h4><p>Pay bill</p></button>
     <button class="service" onclick="openService('tv')"><div class="icon">📺</div><h4>TV Subscription</h4><p>DStv / GOtv</p></button>
     <button class="service" onclick="openService('water')"><div class="icon">🚰</div><h4>Water Bill</h4><p>Water services</p></button>
@@ -61,12 +61,12 @@
   </div>
   <div class="notice"><strong>Important:</strong> This is a frontend demo. Wallet funding, data, airtime and bill payments are not live until a verified payment gateway and service provider are connected. Do not send money through this demo.</div>
   <div class="section-title"><h3>Recent Transactions</h3><button onclick="showPage('transactionsPage')">See all</button></div>
-  <div class="transaction-list"><div class="empty">🧾<br><br>No transactions yet.<br>Real transaction history will appear after backend integration.</div></div>
+  <div class="transaction-list" id="recent-transactions"><div class="empty">Loading transactions…</div></div>
 </section>
 <section id="servicesPage" class="page"><div class="section-title"><h3>All Services</h3></div><div class="services">
 <button class="service" onclick="openService('data')"><div class="icon">📶</div><h4>Buy Data</h4></button><button class="service" onclick="openService('airtime')"><div class="icon">📱</div><h4>Airtime</h4></button><button class="service" onclick="openService('electricity')"><div class="icon">💡</div><h4>Electricity</h4></button><button class="service" onclick="openService('tv')"><div class="icon">📺</div><h4>TV Subscription</h4></button><button class="service" onclick="openService('water')"><div class="icon">🚰</div><h4>Water Bill</h4></button><button class="service" onclick="openService('internet')"><div class="icon">🌐</div><h4>Internet</h4></button><button class="service" onclick="showPage('walletPage')"><div class="icon">💳</div><h4>Fund Wallet</h4></button></div><div id="serviceForm" class="panel" style="margin-top:20px"><h2>Choose a service</h2><p>Select a service above to see the demo form.</p></div></section>
-<section id="walletPage" class="page"><div class="panel"><h2>My Wallet</h2><p>Wallet balance is a demo value only. A verified payment gateway and server-side confirmation are required before real funds can be added.</p><div class="balance-card"><div class="balance-label">Current balance</div><div class="balance">₦0.00</div></div><div class="info-box">Wallet funding is not connected. Do not transfer money based on this demo.</div><button class="primary-btn" onclick="showMessage('Payment gateway is not connected yet. No money has been collected.')">Fund Wallet — Setup Pending</button></div></section>
-<section id="transactionsPage" class="page"><div class="panel"><h2>Transaction History</h2><p>Real transaction IDs, amounts, timestamps and results will appear after secure backend integration.</p><div class="empty">🧾<br><br>No transactions yet. No fake transactions are created.</div></div></section>
+<section id="walletPage" class="page"><div class="panel"><h2>My Wallet</h2><p>Fund your wallet through Paystack. Your wallet is credited only after the server verifies a successful payment.</p><div class="balance-card"><div class="balance-label">Current balance</div><div class="balance" id="wallet-balance">₦0.00</div></div><div class="field" style="margin-top:18px"><label for="fund-amount">Amount to add (₦)</label><input id="fund-amount" type="number" inputmode="numeric" min="100" max="500000" step="1" placeholder="e.g. 1000"></div><button class="primary-btn" id="fund-button" onclick="fundWallet()">Continue to Paystack</button><div class="info-box">Use Paystack Test Mode while testing. Never share your password or payment secrets.</div><p id="wallet-status" role="status" style="margin-top:12px"></p></div></section>
+<section id="transactionsPage" class="page"><div class="panel"><h2>Transaction History</h2><p>Transactions recorded for your signed-in account.</p><div id="all-transactions" class="transaction-list"><div class="empty">Loading transactions…</div></div><button class="secondary-btn" onclick="refreshWalletData()">Refresh</button></div></section>
 <section id="profilePage" class="page"><div class="panel"><h2>My Account</h2><p id="profile-email">Your account email will appear here.</p><div class="info-box">Authentication is handled by Supabase. Keep your password private.</div></div></section>
 <div class="footer">AREWA DATA PLUG<br>Services setup in progress.</div>
 </main>
@@ -76,359 +76,221 @@
 <button class="nav-btn" data-page="transactionsPage" onclick="showPage('transactionsPage')"><span>🧾</span>History</button>
 <button class="nav-btn" data-page="profilePage" onclick="showPage('profilePage')"><span>👤</span>Account</button>
 </nav>
-  </div>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-/*
-  AREWA DATA PLUG
-  Authentication uses Supabase.
-  Wallet, airtime, data and bill payments are demo-only.
-*/
+"use strict";
+/* Keep your existing Supabase project URL and publishable/anon key here.
+   Never put a service_role or secret key in browser code. */
 const SUPABASE_URL = "https://nosktmbevvkakvrywswe.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_-8wTTLMZOAWkgT4Kw5hY2A_fgDAxQn7";
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 const authWrap = document.getElementById("auth-wrap");
 const app = document.getElementById("app");
 const bottomNav = document.getElementById("bottom-nav");
-const authStatus = document.getElementById("auth-status");
 const signupForm = document.getElementById("signup-form");
 const loginForm = document.getElementById("login-form");
 const authTitle = document.getElementById("auth-title");
+const authStatus = document.getElementById("auth-status");
 const toggleAuth = document.getElementById("toggle-auth");
 
-let supabaseClient = null;
-let loginMode = false;
-let currentUser = null;
-
-function setAuthStatus(message, isError = false) {
+function authMessage(message, ok=false) {
   authStatus.textContent = message;
-  authStatus.style.color = isError ? "#b42318" : "#087f5b";
+  authStatus.style.color = ok ? "#087443" : "#b42318";
 }
-
-function showAuth() {
-  authWrap.style.display = "block";
-  app.style.display = "none";
-  bottomNav.style.display = "none";
-}
-
 function showApp(user) {
-  currentUser = user;
   authWrap.style.display = "none";
   app.style.display = "block";
   bottomNav.style.display = "grid";
-
-  const name = user.user_metadata?.full_name || user.email || "Mai amfani";
-  document.getElementById("welcomeName").textContent = "Barka da zuwa, " + name;
-  document.getElementById("profile-email").textContent = user.email || "Babu email";
-  showPage("homePage");
+  document.getElementById("welcomeName").textContent =
+    user.user_metadata?.full_name || user.email || "Barka da zuwa!";
+  document.getElementById("profile-email").textContent = user.email || "";
+  refreshWalletData();
 }
-
-function showPage(pageId) {
-  document.querySelectorAll(".page").forEach(page => {
-    page.classList.toggle("active", page.id === pageId);
-  });
-  document.querySelectorAll(".nav-btn").forEach(button => {
-    button.classList.toggle("active", button.dataset.page === pageId);
-  });
-  window.scrollTo({ top: 0, behavior: "smooth" });
+function showAuth() {
+  app.style.display = "none";
+  bottomNav.style.display = "none";
+  authWrap.style.display = "block";
 }
-
-function showMessage(message) {
-  alert(message);
-}
-
-function setAuthMode(useLogin) {
-  loginMode = useLogin;
-  signupForm.style.display = useLogin ? "none" : "block";
-  loginForm.style.display = useLogin ? "block" : "none";
-  authTitle.textContent = useLogin ? "Login / Shiga" : "Create Account / Rijista";
-  toggleAuth.textContent = useLogin
-    ? "New here? Create Account"
-    : "Already registered? Login";
-  setAuthStatus("");
-}
-
-toggleAuth.addEventListener("click", () => setAuthMode(!loginMode));
-
-signupForm.addEventListener("submit", async event => {
+signupForm.addEventListener("submit", async (event) => {
   event.preventDefault();
-
-  if (!supabaseClient) {
-    setAuthStatus("Supabase bai haɗu ba. Duba publishable key ɗinka.", true);
-    return;
-  }
-
-  const fullName = document.getElementById("signup-name").value.trim();
+  authMessage("Creating your account…", true);
+  const name = document.getElementById("signup-name").value.trim();
   const phone = document.getElementById("signup-phone").value.trim();
   const email = document.getElementById("signup-email").value.trim();
   const password = document.getElementById("signup-password").value;
-
-  if (!fullName || !phone || !email || password.length < 8) {
-    setAuthStatus("Cika dukkan bayanan da ake buƙata. Password ya zama aƙalla haruffa 8.", true);
-    return;
-  }
-
-  setAuthStatus("Ana ƙirƙirar account...");
   const { data, error } = await supabaseClient.auth.signUp({
-    email,
-    password,
-    options: {
-      data: {
-        full_name: fullName,
-        phone: phone
-      }
-    }
+    email, password, options: { data: { full_name: name, phone } }
   });
-
-  if (error) {
-    setAuthStatus(error.message, true);
-    return;
-  }
-
-  if (data.session) {
-    setAuthStatus("An yi rijista cikin nasara.");
-    showApp(data.session.user);
+  if (error) return authMessage(error.message);
+  if (data.session && data.user) {
+    showApp(data.user);
+    authMessage("");
   } else {
-    setAuthStatus("An ƙirƙiri account. Duba email ɗinka don tabbatarwa, sannan ka shiga.");
-    setAuthMode(true);
+    signupForm.reset();
+    loginForm.style.display = "block";
+    signupForm.style.display = "none";
+    authTitle.textContent = "Login / Shiga";
+    toggleAuth.textContent = "New user? Register";
+    authMessage("Registration received. Check your email to confirm your account, then log in.", true);
   }
 });
-
-loginForm.addEventListener("submit", async event => {
+loginForm.addEventListener("submit", async (event) => {
   event.preventDefault();
-
-  if (!supabaseClient) {
-    setAuthStatus("Supabase bai haɗu ba. Duba publishable key ɗinka.", true);
-    return;
-  }
-
+  authMessage("Signing in…", true);
   const email = document.getElementById("login-email").value.trim();
   const password = document.getElementById("login-password").value;
-
-  setAuthStatus("Ana shiga...");
-  const { data, error } = await supabaseClient.auth.signInWithPassword({
-    email,
-    password
-  });
-
-  if (error) {
-    setAuthStatus(error.message, true);
-    return;
-  }
-
-  if (data.session) showApp(data.session.user);
+  const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+  if (error) return authMessage(error.message);
+  showApp(data.user);
+  authMessage("");
 });
-
+toggleAuth.addEventListener("click", () => {
+  const signupVisible = signupForm.style.display !== "none";
+  signupForm.style.display = signupVisible ? "none" : "block";
+  loginForm.style.display = signupVisible ? "block" : "none";
+  authTitle.textContent = signupVisible ? "Login / Shiga" : "Create Account / Rijista";
+  toggleAuth.textContent = signupVisible ? "New user? Register" : "Already registered? Login";
+  authMessage("");
+});
 document.getElementById("forgot-password").addEventListener("click", async () => {
-  if (!supabaseClient) {
-    setAuthStatus("Supabase bai haɗu ba.", true);
-    return;
-  }
-
-  const email = loginMode
-    ? document.getElementById("login-email").value.trim()
-    : document.getElementById("signup-email").value.trim();
-
-  if (!email) {
-    setAuthStatus("Da fatan ka fara rubuta email ɗinka a akwatin email.", true);
-    return;
-  }
-
-  const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
-    redirectTo: window.location.origin + window.location.pathname
-  });
-
-  if (error) {
-    setAuthStatus(error.message, true);
-  } else {
-    setAuthStatus("An aika umarnin canza password idan email ɗin yana cikin tsarin. Duba inbox ɗinka.");
-  }
+  const email = document.getElementById("login-email").value.trim();
+  if (!email) return authMessage("Enter your email in the Login form first.");
+  const { error } = await supabaseClient.auth.resetPasswordForEmail(email);
+  authMessage(error ? error.message : "If the email belongs to an account, a password reset link will be sent.", !error);
 });
-
 document.getElementById("logout-button").addEventListener("click", async () => {
-  if (!supabaseClient) return;
   const { error } = await supabaseClient.auth.signOut();
-
-  if (error) {
-    showMessage("An samu matsala wajen fita: " + error.message);
-    return;
-  }
-
-  currentUser = null;
+  if (error) return alert(error.message);
   showAuth();
-  setAuthMode(true);
-  setAuthStatus("Ka fita daga account ɗinka.");
+  signupForm.style.display = "none";
+  loginForm.style.display = "block";
+  authTitle.textContent = "Login / Shiga";
+  toggleAuth.textContent = "New user? Register";
+});
+supabaseClient.auth.onAuthStateChange((_event, session) => {
+  if (session?.user) showApp(session.user);
+  else showAuth();
+});
+supabaseClient.auth.getSession().then(({data, error}) => {
+  if (!error && data.session?.user) { showApp(data.session.user); verifyReturnedPayment(); }
+  else { showAuth(); }
 });
 
-function openService(service) {
-  showPage("servicesPage");
-
-  const titles = {
-    data: "Buy Data / Siyan Data",
-    airtime: "Buy Airtime / Siyan Airtime",
-    electricity: "Electricity Bill / Biyan Wuta",
-    tv: "TV Subscription / Biyan TV",
-    water: "Water Bill / Biyan Ruwa",
-    internet: "Internet Subscription / Biyan Intanet"
-  };
-
-  const descriptions = {
-    data: "Zaɓi network da bundle ɗin da kake so.",
-    airtime: "Zaɓi network sannan ka shigar da lambar waya da adadi.",
-    electricity: "Shigar da bayanan kamfanin wutar lantarki.",
-    tv: "Zaɓi kamfanin TV ɗinka da smart-card number.",
-    water: "Shigar da bayanan asusun ruwa.",
-    internet: "Shigar da bayanan sabis ɗin intanet."
-  };
-
-  let fields = "";
-
-  if (service === "data") {
-    fields = `
-      <div class="field"><label>Network</label>
-      <select id="service-network" required>
-        <option value="">Zaɓi network</option>
-        <option>MTN</option><option>Airtel</option>
-        <option>Glo</option><option>9mobile</option>
-      </select></div>
-      <div class="field"><label>Phone Number</label>
-      <input id="service-phone" type="tel" placeholder="08012345678" required></div>
-      <div class="field"><label>Data Bundle</label>
-      <select id="service-package" required>
-        <option value="">Zaɓi bundle</option>
-        <option>500MB</option><option>1GB</option>
-        <option>2GB</option><option>3GB</option>
-        <option>5GB</option><option>10GB</option>
-      </select></div>`;
-  } else if (service === "airtime") {
-    fields = `
-      <div class="field"><label>Network</label>
-      <select id="service-network" required>
-        <option value="">Zaɓi network</option>
-        <option>MTN</option><option>Airtel</option>
-        <option>Glo</option><option>9mobile</option>
-      </select></div>
-      <div class="field"><label>Phone Number</label>
-      <input id="service-phone" type="tel" placeholder="08012345678" required></div>
-      <div class="field"><label>Amount (₦)</label>
-      <input id="service-amount" type="number" min="50" placeholder="100" required></div>`;
-  } else {
-    const labels = {
-      electricity: ["Electricity Provider", "Meter Number", "Amount (₦)"],
-      tv: ["TV Provider", "Smart Card / IUC Number", "Amount (₦)"],
-      water: ["Water Provider", "Customer Account Number", "Amount (₦)"],
-      internet: ["Internet Provider", "Customer / Account Number", "Amount (₦)"]
-    };
-    const item = labels[service];
-    fields = `
-      <div class="field"><label>${item[0]}</label>
-      <input id="service-provider" type="text" placeholder="${item[0]}" required></div>
-      <div class="field"><label>${item[1]}</label>
-      <input id="service-account" type="text" placeholder="${item[1]}" required></div>
-      <div class="field"><label>${item[2]}</label>
-      <input id="service-amount" type="number" min="1" placeholder="Amount in Naira" required></div>`;
-  }
-
-  document.getElementById("serviceForm").innerHTML = `
-    <h2>${titles[service]}</h2>
-    <p>${descriptions[service]}</p>
-    <form id="demo-service-form">
-      ${fields}
-      <div class="info-box">Demo only: ba a haɗa wannan sabis da mai samar da shi ba. Ba za a cire kuɗi ko yin biyan kuɗi na gaske ba.</div>
-      <button class="primary-btn" type="submit">Continue — Demo Only</button>
-    </form>`;
-
-  document.getElementById("demo-service-form").addEventListener("submit", event => {
-    event.preventDefault();
-    showMessage("Wannan demo ne kawai. Ba a yi transaction ba kuma ba a cire kuɗi. Sai an haɗa ingantaccen backend kafin amfani na gaske.");
-  });
+const naira = value => "₦" + Number(value || 0).toLocaleString("en-NG", {minimumFractionDigits:2, maximumFractionDigits:2});
+function setWalletStatus(message, ok=false) {
+  const el = document.getElementById("wallet-status");
+  if (el) { el.textContent = message; el.style.color = ok ? "#087443" : "#b42318"; }
 }
-
-async function initializeApp() {
-  showAuth();
-
-  if (SUPABASE_ANON_KEY === "PASTE_YOUR_EXISTING_SUPABASE_PUBLISHABLE_KEY_HERE") {
-    setAuthStatus("Kafin login ya yi aiki, maye gurbin PASTE_YOUR_EXISTING_SUPABASE_PUBLISHABLE_KEY_HERE da publishable key ɗinka na Supabase.", true);
+function renderTransactions(rows, targetId) {
+  const target = document.getElementById(targetId);
+  if (!target) return;
+  if (!rows || !rows.length) { target.innerHTML = '<div class="empty">🧾<br><br>No transactions yet.</div>'; return; }
+  target.innerHTML = rows.map(tx => {
+    const positive = tx.type === "funding" && tx.status === "success";
+    const amount = (positive ? "+ " : "") + naira(tx.amount);
+    const date = tx.created_at ? new Date(tx.created_at).toLocaleString() : "";
+    return `<div style="padding:14px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;gap:10px"><div><strong>${escapeHtml(tx.description || tx.type || "Transaction")}</strong><div style="font-size:11px;color:var(--muted);margin-top:5px">${escapeHtml(date)} · ${escapeHtml(tx.status || "pending")}</div><div style="font-size:10px;color:var(--muted);margin-top:4px">${escapeHtml(tx.reference || "")}</div></div><strong style="white-space:nowrap;color:${positive ? '#087443' : 'var(--text)'}">${amount}</strong></div>`;
+  }).join("");
+}
+function escapeHtml(value) {
+  return String(value ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;", "'":"&#39;"}[c]));
+}
+async function refreshWalletData() {
+  const { data: { session }, error: sessionError } = await supabaseClient.auth.getSession();
+  if (sessionError || !session?.user) return;
+  const userId = session.user.id;
+  const { data: wallet, error: walletError } = await supabaseClient.from("wallets").select("balance").eq("user_id", userId).maybeSingle();
+  if (walletError) console.error("Wallet read error:", walletError.message);
+  const balance = wallet?.balance ?? 0;
+  ["home-balance", "wallet-balance"].forEach(id => { const el = document.getElementById(id); if (el) el.textContent = naira(balance); });
+  const { data: txs, error: txError } = await supabaseClient.from("wallet_transactions").select("id,type,amount,status,reference,description,created_at").eq("user_id", userId).order("created_at", {ascending:false}).limit(50);
+  if (txError) {
+    console.error("Transaction history error:", txError.message);
+    renderTransactions([], "recent-transactions");
+    const all = document.getElementById("all-transactions"); if (all) all.innerHTML = '<div class="empty">Could not load history. Check your Supabase table permissions.</div>';
     return;
   }
-
-  try {
-    const { createClient } = window.supabase;
-    supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-    const { data, error } = await supabaseClient.auth.getSession();
-    if (error) throw error;
-
-    if (data.session) {
-      showApp(data.session.user);
-    } else {
-      showAuth();
-    }
-
-    supabaseClient.auth.onAuthStateChange((_event, session) => {
-      if (session) {
-        showApp(session.user);
-      } else {
-        currentUser = null;
-        showAuth();
-      }
-    });
-  } catch (error) {
-    setAuthStatus("An kasa haɗuwa da Supabase: " + error.message, true);
-  }
+  renderTransactions((txs || []).slice(0,5), "recent-transactions");
+  renderTransactions(txs || [], "all-transactions");
 }
-
-initializeApp();
-</script>
-<script>
-  
 async function fundWallet() {
-  const amount = prompt("Enter amount in Naira (minimum ₦100):");
-  if (!amount) return;
-
-  const naira = Number(amount);
-
-  if (!Number.isSafeInteger(naira) || naira < 100 || naira > 500000) {
-    alert("Enter a whole amount between ₦100 and ₦500,000.");
-    return;
+  const amount = Number(document.getElementById("fund-amount")?.value);
+  if (!Number.isSafeInteger(amount) || amount < 100 || amount > 500000) {
+    setWalletStatus("Enter a whole amount between ₦100 and ₦500,000."); return;
   }
-
-  const { data: { session }, error: sessionError } =
-    await supabase.auth.getSession();
-
-  if (sessionError || !session) {
-    alert("Please log in first.");
-    return;
-  }
-
+  const button = document.getElementById("fund-button");
+  button.disabled = true; button.textContent = "Connecting to Paystack…";
+  setWalletStatus("Starting payment securely…", true);
   try {
-    const response = await fetch(
-      "https://nosktmbevvkakvrywswe.supabase.co/functions/v1/initialize-payment",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${session.access_token}`,
-          "apikey": SUPABASE_ANON_KEY
-        },
-        body: JSON.stringify({ amount: naira })
-      }
-    );
-
-    const result = await response.json();
-
-    if (!response.ok || !result.authorization_url) {
-      alert(result.error || "Could not start payment. Please try again.");
-      return;
-    }
-
+    const { data: { session }, error: sessionError } = await supabaseClient.auth.getSession();
+    if (sessionError || !session) throw new Error("Please log in first.");
+    const response = await fetch(`${SUPABASE_URL}/functions/v1/initialize-payment`, {
+      method: "POST",
+      headers: {"Content-Type":"application/json", "Authorization":`Bearer ${session.access_token}`, "apikey":SUPABASE_ANON_KEY},
+      body: JSON.stringify({amount})
+    });
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok || !result.authorization_url || !result.reference) throw new Error(result.error || "Could not start payment. Try again.");
     window.location.href = result.authorization_url;
-  } catch (error) {
-    alert("Connection problem. Please try again.");
-    console.error(error);
+  } catch (err) {
+    setWalletStatus(err.message || "Connection problem. Please try again.");
+    button.disabled = false; button.textContent = "Continue to Paystack";
+  }
+}
+async function verifyReturnedPayment() {
+  const params = new URLSearchParams(window.location.search);
+  const reference = params.get("reference") || params.get("trxref");
+  if (!reference) return;
+  history.replaceState({}, document.title, window.location.pathname + window.location.hash);
+  const { data: { session } } = await supabaseClient.auth.getSession();
+  if (!session) {
+    sessionStorage.setItem("arewa_pending_payment_reference", reference);
+    return;
+  }
+  showPage("walletPage");
+  setWalletStatus("Verifying payment with Paystack…", true);
+  try {
+    const response = await fetch(`${SUPABASE_URL}/functions/v1/verify-payment`, {
+      method: "POST",
+      headers: {"Content-Type":"application/json", "Authorization":`Bearer ${session.access_token}`, "apikey":SUPABASE_ANON_KEY},
+      body: JSON.stringify({reference})
+    });
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok || result.verified !== true) throw new Error(result.error || "Payment is not verified yet. Refresh and check again.");
+    setWalletStatus(result.walletCredited ? "Payment verified. Your wallet has been credited." : "Payment verified / already processed. Refreshing wallet…", true);
+    await refreshWalletData();
+  } catch (err) {
+    setWalletStatus(err.message || "Could not verify payment. Please refresh and try again.");
   }
 }
 
+const pages = document.querySelectorAll(".page");
+const navButtons = document.querySelectorAll(".nav-btn");
+function showPage(pageId) {
+  pages.forEach(page => page.classList.toggle("active", page.id === pageId));
+  navButtons.forEach(button => button.classList.toggle("active", button.dataset.page === pageId));
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+function showMessage(message) { alert(message); }
+function openService(type) {
+  showPage("servicesPage");
+  const form = document.getElementById("serviceForm");
+  const configs = {
+    data: {title:"Buy Data", intro:"Choose a network and enter your phone number.", fields:`<div class="field"><label>Network</label><select id="svc-network"><option value="">Select network</option><option>MTN</option><option>Airtel</option><option>Glo</option><option>9mobile</option></select></div><div class="field"><label>Phone number</label><input id="svc-phone" type="tel" inputmode="numeric" maxlength="11" placeholder="08012345678"></div><div class="field"><label>Data plan</label><select id="svc-plan"><option value="">Plans not connected</option></select></div>`},
+    airtime: {title:"Buy Airtime", intro:"Enter the network, phone number and amount.", fields:`<div class="field"><label>Network</label><select id="svc-network"><option value="">Select network</option><option>MTN</option><option>Airtel</option><option>Glo</option><option>9mobile</option></select></div><div class="field"><label>Phone number</label><input id="svc-phone" type="tel" inputmode="numeric" maxlength="11" placeholder="08012345678"></div><div class="field"><label>Amount (₦)</label><input id="svc-amount" type="number" min="50" max="50000" placeholder="1000"></div>`},
+    electricity: {title:"Electricity Bill", intro:"Electricity bill payments will be enabled after connecting a verified provider.", fields:`<div class="field"><label>Distribution company</label><select id="svc-company"><option value="">Select company</option><option>Abuja Electricity Distribution (AEDC)</option><option>Other DISCO</option></select></div><div class="field"><label>Meter type</label><select><option>Prepaid</option><option>Postpaid</option></select></div><div class="field"><label>Meter number</label><input placeholder="Enter meter number"></div><div class="field"><label>Amount (₦)</label><input type="number" min="1" placeholder="Amount"></div>`},
+    tv: {title:"TV Subscription", intro:"TV subscriptions will be enabled after provider integration.", fields:`<div class="field"><label>Provider</label><select><option>Select provider</option><option>DStv</option><option>GOtv</option><option>Startimes</option></select></div><div class="field"><label>Smartcard / IUC number</label><input placeholder="Enter decoder number"></div><div class="field"><label>Package</label><input placeholder="Subscription package"></div>`},
+    water: {title:"Water Bill", intro:"Water bill payment availability depends on your local water provider.", fields:`<div class="field"><label>Water provider</label><input placeholder="Enter water provider"></div><div class="field"><label>Customer / meter number</label><input placeholder="Enter customer number"></div><div class="field"><label>Amount (₦)</label><input type="number" min="1" placeholder="Amount"></div>`},
+    internet: {title:"Internet Subscription", intro:"Broadband and internet subscription will be enabled after provider integration.", fields:`<div class="field"><label>Provider</label><select><option>Select provider</option><option>Spectranet</option><option>Smile</option><option>Other</option></select></div><div class="field"><label>Account / device number</label><input placeholder="Enter account number"></div><div class="field"><label>Package</label><input placeholder="Choose package"></div>`}
+  };
+  const c = configs[type];
+  if (!c) return;
+  form.innerHTML = `<h2>${c.title}</h2><p>${c.intro}</p>${c.fields}<div class="info-box">Setup pending: this form is for layout/testing only. No payment or service request will be sent.</div><button class="primary-btn" onclick="showMessage('This service is not live yet. No payment has been made.')">Continue — Setup Pending</button>`;
+  form.scrollIntoView({behavior:"smooth",block:"start"});
+}
 </script>
 </body>
-</html>
+  </html>
