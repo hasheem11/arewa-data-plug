@@ -189,7 +189,7 @@ function renderTransactions(rows, targetId) {
   if (!target) return;
   if (!rows || !rows.length) { target.innerHTML = '<div class="empty">🧾<br><br>No transactions yet.</div>'; return; }
   target.innerHTML = rows.map(tx => {
-    const positive = tx.type === "deposit" && tx.status === "success";
+    const positive = tx.type === "funding" && tx.status === "success";
     const amount = (positive ? "+ " : "") + naira(tx.amount);
     const date = tx.created_at ? new Date(tx.created_at).toLocaleString() : "";
     return `<div style="padding:14px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;gap:10px"><div><strong>${escapeHtml(tx.description || tx.type || "Transaction")}</strong><div style="font-size:11px;color:var(--muted);margin-top:5px">${escapeHtml(date)} · ${escapeHtml(tx.status || "pending")}</div><div style="font-size:10px;color:var(--muted);margin-top:4px">${escapeHtml(tx.reference || "")}</div></div><strong style="white-space:nowrap;color:${positive ? '#087443' : 'var(--text)'}">${amount}</strong></div>`;
