@@ -68,7 +68,6 @@
 <section id="walletPage" class="page"><div class="panel"><h2>My Wallet</h2><p>Fund your wallet through Paystack. Your wallet is credited only after the server verifies a successful payment.</p><div class="balance-card"><div class="balance-label">Current balance</div><div class="balance" id="wallet-balance">₦0.00</div></div><div class="field" style="margin-top:18px"><label for="fund-amount">Amount to add (₦)</label><input id="fund-amount" type="number" inputmode="numeric" min="100" max="500000" step="1" placeholder="e.g. 1000"></div><button class="primary-btn" id="fund-button" onclick="fundWallet()">Continue to Paystack</button><div class="info-box">Use Paystack Test Mode while testing. Never share your password or payment secrets.</div><p id="wallet-status" role="status" style="margin-top:12px"></p></div></section>
 <section id="transactionsPage" class="page"><div class="panel"><h2>Transaction History</h2><p>Transactions recorded for your signed-in account.</p><div id="all-transactions" class="transaction-list"><div class="empty">Loading transactions…</div></div><button class="secondary-btn" onclick="refreshWalletData()">Refresh</button></div></section>
 <section id="profilePage" class="page"><div class="panel"><h2>My Account</h2><p id="profile-email">Your account email will appear here.</p><div class="info-box">Authentication is handled by Supabase. Keep your password private.</div></div></section>
-
 <section id="adminPage" class="page">
   <div class="panel">
     <h2>🛡️ AREWA ADMIN</h2>
@@ -127,7 +126,6 @@
   style="display:none">
   <span>🛡️</span>Admin
 </button>
-
 </nav>
 </div>
 
