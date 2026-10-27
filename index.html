@@ -68,13 +68,66 @@
 <section id="walletPage" class="page"><div class="panel"><h2>My Wallet</h2><p>Fund your wallet through Paystack. Your wallet is credited only after the server verifies a successful payment.</p><div class="balance-card"><div class="balance-label">Current balance</div><div class="balance" id="wallet-balance">₦0.00</div></div><div class="field" style="margin-top:18px"><label for="fund-amount">Amount to add (₦)</label><input id="fund-amount" type="number" inputmode="numeric" min="100" max="500000" step="1" placeholder="e.g. 1000"></div><button class="primary-btn" id="fund-button" onclick="fundWallet()">Continue to Paystack</button><div class="info-box">Use Paystack Test Mode while testing. Never share your password or payment secrets.</div><p id="wallet-status" role="status" style="margin-top:12px"></p></div></section>
 <section id="transactionsPage" class="page"><div class="panel"><h2>Transaction History</h2><p>Transactions recorded for your signed-in account.</p><div id="all-transactions" class="transaction-list"><div class="empty">Loading transactions…</div></div><button class="secondary-btn" onclick="refreshWalletData()">Refresh</button></div></section>
 <section id="profilePage" class="page"><div class="panel"><h2>My Account</h2><p id="profile-email">Your account email will appear here.</p><div class="info-box">Authentication is handled by Supabase. Keep your password private.</div></div></section>
-<div class="footer">AREWA DATA PLUG<br>Services setup in progress.</div>
+
+<section id="adminPage" class="page">
+  <div class="panel">
+    <h2>🛡️ AREWA ADMIN</h2>
+    <p>Admin Dashboard — Bayanan kasuwancinka</p>
+
+    <div class="services">
+      <div class="service">
+        <div class="icon">👥</div>
+        <h4>Customers</h4>
+        <p id="admin-customer-count">Loading...</p>
+      </div>
+      <div class="service">
+        <div class="icon">💰</div>
+        <h4>Total Wallets</h4>
+        <p id="admin-wallet-total">Loading...</p>
+      </div>
+      <div class="service">
+        <div class="icon">🧾</div>
+        <h4>Transactions</h4>
+        <p id="admin-tx-count">Loading...</p>
+      </div>
+    </div>
+
+    <button class="primary-btn" onclick="loadAdminDashboard()">
+      Refresh Dashboard
+    </button>
+    <p id="admin-status" role="status" style="margin-top:12px"></p>
+  </div>
+
+  <div class="panel">
+    <h2>Customers</h2>
+    <div id="admin-customers" class="transaction-list">
+      <div class="empty">Loading customers...</div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Wallet Transactions</h2>
+    <div id="admin-transactions" class="transaction-list">
+      <div class="empty">Loading transactions...</div>
+    </div>
+  </div>
+</section>
+  
+  <div class="footer">AREWA DATA PLUG<br>Services setup in progress.</div>
 </main>
-<nav class="bottom-nav" id="bottom-nav">
+< class="botnavtom-nav" id="bottom-nav">
 <button class="nav-btn active" data-page="homePage" onclick="showPage('homePage')"><span>🏠</span>Home</button>
 <button class="nav-btn" data-page="servicesPage" onclick="showPage('servicesPage')"><span>📶</span>Services</button>
 <button class="nav-btn" data-page="transactionsPage" onclick="showPage('transactionsPage')"><span>🧾</span>History</button>
 <button class="nav-btn" data-page="profilePage" onclick="showPage('profilePage')"><span>👤</span>Account</button>
+
+<button class="nav-btn" id="admin-nav-button"
+  data-page="adminPage"
+  onclick="showPage('adminPage')"
+  style="display:none">
+  <span>🛡️</span>Admin
+</button>
+
 </nav>
 </div>
 
